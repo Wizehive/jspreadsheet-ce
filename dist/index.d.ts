@@ -2411,7 +2411,7 @@ declare namespace jspreadsheet {
      * @param newValue - New title. If it is a falsy value, the prompt is displayed requesting the new title.
      */
     setHeader: (column: number, newValue?: string) => void;
-
+    setCellIndication :(value :string) => void;
     /**
      * Change row height.
      * @param row - Index of a row or an HTML element that represents a row or a column of the table. In the second option, the row index (data-y attribute) of that element is used.

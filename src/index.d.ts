@@ -2412,6 +2412,11 @@ declare namespace jspreadsheet {
      */
     setHeader: (column: number, newValue?: string) => void;
 
+    /** set the cell indication like A1, A2 */
+    setCellIndication :(value :string) => void;
+
+    // set the selected cell value 
+    setCellValue:(value:string)=> void;
     /**
      * Change row height.
      * @param row - Index of a row or an HTML element that represents a row or a column of the table. In the second option, the row index (data-y attribute) of that element is used.
