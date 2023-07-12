@@ -169,7 +169,10 @@ if (!formula && typeof require === "function") {
       allowComments: false,
       // Allow showFxbar
       allowFxbar: true,
+      //disable Toolbar
       disableToolbar: false,
+      //disable Context Menu
+      disableContextMenu: false,
       // Global wrap
       wordWrap: false,
       // Image options
@@ -731,11 +734,13 @@ if (!formula && typeof require === "function") {
       obj.contextMenu.className = "jexcel_contextmenu";
 
       // Create element
-      jSuites.contextmenu(obj.contextMenu, {
-        onclick: function () {
-          obj.contextMenu.contextmenu.close(false);
-        },
-      });
+      if (!obj.options.disableContextMenu) {
+        jSuites.contextmenu(obj.contextMenu, {
+          onclick: function () {
+            obj.contextMenu.contextmenu.close(false);
+          },
+        });
+      }
 
       // Powered by Jspreadsheet
       var ads = document.createElement("a");
@@ -1279,7 +1284,7 @@ if (!formula && typeof require === "function") {
       var td = document.createElement("td");
       td.innerHTML = index;
       td.setAttribute("data-y", j);
-      td.className = "jexcel_row";
+      td.className = "jexcel_row jexcel-freeze";
       obj.rows[j].appendChild(td);
 
       // Data columns
@@ -1638,15 +1643,15 @@ if (!formula && typeof require === "function") {
      * Create toolbar
      */
     obj.createToolbar = function (toolbar) {
-      console.log("In create toolbar")
-      console.log(obj.options)
+      console.log("In create toolbar");
+      console.log(obj.options);
       if (toolbar) {
         obj.options.toolbar = toolbar;
       } else {
         var toolbar = obj.options.toolbar;
       }
-      if(obj.options.disableToolbar){
-        console.log("In disable toolbar")
+      if (obj.options.disableToolbar) {
+        console.log("In disable toolbar");
         obj.toolbar.classList.add("disabled-toolbar");
       }
       for (var i = 0; i < toolbar.length; i++) {
@@ -5704,6 +5709,34 @@ if (!formula && typeof require === "function") {
      * Readonly
      */
     obj.setReadOnly = function (cell, state) {
+      if (Array.isArray(cell) && cell.length > 2) {
+        const betweenCells = (selectedArray) => {
+          const finalArray = []
+          const [first, second, third, fourth] = selectedArray;
+          let minCol = first, maxCol = third, minRow = second, maxRow = fourth;
+          if (third < first) {
+            minCol = third
+            maxCol = first
+          }
+          if (second > fourth) {
+            maxRow = second
+            minRow = fourth
+          }
+          for (let x = minCol; x <= maxCol; x++) {
+            let coords = []
+            for (let y = minRow; y <= maxRow; y++) {
+              coords = []
+              coords.push(x)
+              coords.push(y)
+              finalArray.push(coords)
+
+            }
+          }
+          return finalArray;
+        }
+        const arrayOfCoords = betweenCells(cell)
+        arrayOfCoords.forEach(coord => obj.setReadOnly(coord, state))
+      }
       if ((cell = obj.getCell(cell))) {
         if (state) {
           cell.classList.add("readonly");
@@ -9601,6 +9634,7 @@ if (!formula && typeof require === "function") {
   };
 
   jexcel.contextMenuControls = function (e) {
+    // console.log("check", jexcel.current.options.disableContextMenu);
     e = e || window.event;
     if ("buttons" in e) {
       var mouseButton = e.buttons;
@@ -9611,7 +9645,10 @@ if (!formula && typeof require === "function") {
     if (jexcel.current) {
       if (jexcel.current.edition) {
         e.preventDefault();
-      } else if (jexcel.current.options.contextMenu) {
+      } else if (
+        jexcel.current.options.contextMenu &&
+        !jexcel.current.options.disableContextMenu
+      ) {
         jexcel.current.contextMenu.contextmenu.close();
 
         if (jexcel.current) {

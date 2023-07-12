@@ -2,21 +2,11 @@
 <link rel="stylesheet" href="jspreadsheet.css" type="text/css" />
 
 <script src="https://jsuites.net/v4/jsuites.js"></script>
-<link
-  rel="stylesheet"
-  href="https://jsuites.net/v4/jsuites.css"
-  type="text/css"
-/>
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Material+Icons"
-/>
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
 
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css"
-/>
+<link rel="stylesheet" type="text/css"
+  href="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
@@ -24,9 +14,11 @@
 
 <script>
   var data2 = [
-    ["PHP", "14:00"],
-    ["Javascript", "16:30"],
+    ["PHP", "14:00", "PHP", "14:00"],
+    ["Javascript", "16:30", "PHP", "14:00"],
+    ["Javascript", "16:30", "PHP", "14:00"],
   ];
+  var styleObj = {};
 
   var customColumn = {
     // Methods
@@ -67,6 +59,7 @@
 
   myTable = jspreadsheet(document.getElementById("spreadsheet"), {
     data: data2,
+    minDimensions : [10, 100],
     columns: [
       { type: "text", title: "Course Title", width: 300 },
       { type: "text", title: "Time", width: 100, editor: customColumn },
@@ -96,10 +89,14 @@
       {
         type: "i",
         content: "lock",
-        tooltip: "Freeze",
+        tooltip: "Editable",
         onclick: function () {
-          console.log("Freeze");
-          // jRef.current.jexcel.freeze()
+          const [first, second] = myTable.selectedCell
+          let readOnlyFlag = false;
+          if (!myTable.isReadOnly([first, second])) {
+            readOnlyFlag = !readOnlyFlag
+          }
+          myTable.setReadOnly(myTable.selectedCell, readOnlyFlag)
         },
       },
       {
@@ -241,6 +238,50 @@
     allowManualInsertRow: false,
     allowInsertRow: false,
     allowManualInsertColumn: false,
-    disableToolBar: true
+    disableToolbar: false,
+    disableContextMenu: true,
+    oneditionstart: (e, td) => {
+      console.log("Edition Start", td)
+      if(td.innerHTML){
+        if (td.innerHTML.charAt(0) === "=") {
+          styleObj = {};
+          const val = td.innerHTML.toUpperCase()
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index)
+          })
+          myTable.setStyle(styleObj)
+        }
+      }
+      td.addEventListener('input', (event) => {
+        if (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward") {
+          let newStyleObj = {}
+          Object.keys(styleObj).forEach(key => newStyleObj[key] = 'border:;')
+          myTable.setStyle(newStyleObj)
+        }
+        const value = event.target.value
+        if (event.key == "=" || value.charAt(0) === "=") {
+          styleObj = {};
+          const val = value.toUpperCase()
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index)
+          })
+          myTable.setStyle(styleObj)
+        }
+      })
+    },
+    oneditionend: (e, td) => {
+      let newStyleObj = {}
+      Object.keys(styleObj).forEach(key => newStyleObj[key] = 'border:;')
+      myTable.setStyle(newStyleObj)
+      styleObj = {}
+    }
   });
+  const getStyleForCell = function (index) {
+    const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"]
+    return `border: 2px dashed ${colors[index % colors.length]};`
+  }
 </script>

@@ -1386,6 +1386,8 @@ declare namespace jspreadsheet {
 
     disableToolbar?: boolean
 
+    disableContextMenu?: boolean
+
     /** Method to config custom script execution. NOTE: This does not work with lazyLoading, Pagination or Search options. */
     updateTable?: (
       instance: JspreadsheetInstance,
