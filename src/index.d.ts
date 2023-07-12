@@ -1384,6 +1384,8 @@ declare namespace jspreadsheet {
     /** Add custom toolbars. */
     toolbar?: ToolbarItem[];
 
+    disableToolbar?: boolean
+
     /** Method to config custom script execution. NOTE: This does not work with lazyLoading, Pagination or Search options. */
     updateTable?: (
       instance: JspreadsheetInstance,

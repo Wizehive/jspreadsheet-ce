@@ -573,7 +573,7 @@
     background-color: #f3f3f3;
 }
 
-.jexcel_toolbar{
+.jexcel_toolbar {
     display: flex;
     background: #fff;
     color: #000000;
@@ -584,6 +584,7 @@
     top: 0px;
     z-index: 21;
 }
+
 .jexcel_fxbar {
     display: flex;
     background: #fff;
@@ -594,23 +595,27 @@
     top: 0px;
     z-index: 21; */
 }
+
 .jexcel_fxbar input {
     border: none;
     padding: 4px;
     outline: none;
     width: 100%;
 }
+
 .jexcel_fxbar input.cell-indicator {
     border-right: 1px solid #ccc;
     margin-right: 15px;
     width: 8%;
 }
+
 .jexcel_fxbar span.fx-text {
     font-style: italic;
     font-size: 17px;
     margin-right: 10px;
     color: #939393;
 }
+
 .jexcel_toolbar:empty {
     display: none;
 }
@@ -743,4 +748,9 @@
 .jexcel>tbody>tr>td.readonly>input[type=radio] {
     pointer-events: none;
     opacity: 0.5;
+}
+
+.disabled-toolbar {
+    pointer-events: none;
+    opacity: 0.4;
 }

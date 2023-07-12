@@ -169,6 +169,7 @@ if (!formula && typeof require === "function") {
       allowComments: false,
       // Allow showFxbar
       allowFxbar: true,
+      disableToolbar: false,
       // Global wrap
       wordWrap: false,
       // Image options
@@ -1637,10 +1638,16 @@ if (!formula && typeof require === "function") {
      * Create toolbar
      */
     obj.createToolbar = function (toolbar) {
+      console.log("In create toolbar")
+      console.log(obj.options)
       if (toolbar) {
         obj.options.toolbar = toolbar;
       } else {
         var toolbar = obj.options.toolbar;
+      }
+      if(obj.options.disableToolbar){
+        console.log("In disable toolbar")
+        obj.toolbar.classList.add("disabled-toolbar");
       }
       for (var i = 0; i < toolbar.length; i++) {
         if (toolbar[i].type == "i") {
@@ -8623,7 +8630,7 @@ if (!formula && typeof require === "function") {
                   jexcel.current.options.data.length - 1
                 ) {
                   // New record in case selectedCell in the last row
-                  jexcel.current.insertRow();
+                  // jexcel.current.insertRow();
                 }
               }
             }

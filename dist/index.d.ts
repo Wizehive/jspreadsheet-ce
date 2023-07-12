@@ -1384,6 +1384,8 @@ declare namespace jspreadsheet {
     /** Add custom toolbars. */
     toolbar?: ToolbarItem[];
 
+    disableToolbar?: boolean
+
     /** Method to config custom script execution. NOTE: This does not work with lazyLoading, Pagination or Search options. */
     updateTable?: (
       instance: JspreadsheetInstance,
@@ -2411,7 +2413,12 @@ declare namespace jspreadsheet {
      * @param newValue - New title. If it is a falsy value, the prompt is displayed requesting the new title.
      */
     setHeader: (column: number, newValue?: string) => void;
+
+    /** set the cell indication like A1, A2 */
     setCellIndication :(value :string) => void;
+
+    // set the selected cell value 
+    setCellValue:(value:string)=> void;
     /**
      * Change row height.
      * @param row - Index of a row or an HTML element that represents a row or a column of the table. In the second option, the row index (data-y attribute) of that element is used.
