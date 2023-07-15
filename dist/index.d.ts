@@ -1386,6 +1386,8 @@ declare namespace jspreadsheet {
 
     disableToolbar?: boolean
 
+    disableContextMenu?: boolean
+
     /** Method to config custom script execution. NOTE: This does not work with lazyLoading, Pagination or Search options. */
     updateTable?: (
       instance: JspreadsheetInstance,
@@ -1775,6 +1777,8 @@ declare namespace jspreadsheet {
      * @param dataOnly - If false, and the {@link JSpreadsheetOptions.copyCompatibility} property is true, the return is constructed using the innerHTML of the cells. Otherwise, it is constructed using the {@link JSpreadsheetOptions.data} property. Default: false.
      */
     getData: (highlighted?: boolean, dataOnly?: boolean) => CellValue[][];
+
+    getReadOnlyCells: () => number[]
 
     /**
      * Get the values of options from a dropdown column based on the column index and the keys of those options.

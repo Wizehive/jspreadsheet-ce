@@ -366,7 +366,7 @@ if (!formula && typeof require === "function") {
     obj.data = null;
     obj.filter = null;
     obj.filters = [];
-
+    obj.readOnlyCells = [];
     // Internal controllers
     obj.cursor = null;
     obj.historyIndex = -1;
@@ -5709,7 +5709,6 @@ if (!formula && typeof require === "function") {
      * Readonly
      */
     obj.setReadOnly = function (cell, state) {
-      console.log("In set Read only")
       if (Array.isArray(cell) && cell.length > 2) {
         const betweenCells = (selectedArray) => {
           const finalArray = []
@@ -5730,19 +5729,27 @@ if (!formula && typeof require === "function") {
               coords.push(x)
               coords.push(y)
               finalArray.push(coords)
-
             }
           }
           return finalArray;
         }
         const arrayOfCoords = betweenCells(cell)
+        console.log("🚀 ~ file: index.js:5737 ~ jexcel ~ arrayOfCoords:", arrayOfCoords)
         arrayOfCoords.forEach(coord => obj.setReadOnly(coord, state))
       }
       if ((cell = obj.getCell(cell))) {
+        const cellCoords = [cell.getAttribute("data-x"), cell.getAttribute("data-y")]
         if (state) {
-          cell.classList.add("readonly");
+          if (obj.readOnlyCells.findIndex(coord => (coord[0] === cellCoords[0] && coord[1] === cellCoords[1])) == -1) {
+            cell.classList.add("readonly");
+            obj.readOnlyCells.push(cellCoords);
+          }
         } else {
           cell.classList.remove("readonly");
+          const indexOfCoords = obj.readOnlyCells.findIndex(coord => (coord[0] === cellCoords[0] && coord[1] === cellCoords[1]))
+          if (indexOfCoords !== -1) {
+            obj.readOnlyCells.splice(indexOfCoords, 1)
+          }
         }
       }
     };
@@ -8443,6 +8450,10 @@ if (!formula && typeof require === "function") {
       obj.updateCornerPosition();
     };
 
+    obj.getReadOnlyCells = function () {
+      return obj.readOnlyCells;
+    }
+
     el.addEventListener("DOMMouseScroll", obj.wheelControls);
     el.addEventListener("mousewheel", obj.wheelControls);
 
@@ -10306,6 +10317,7 @@ if (!formula && typeof require === "function") {
       return options;
     }
   };
+  
 
   // Helpers
   jexcel.helpers = (function () {
