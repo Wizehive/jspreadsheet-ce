@@ -5709,6 +5709,7 @@ if (!formula && typeof require === "function") {
      * Readonly
      */
     obj.setReadOnly = function (cell, state) {
+      console.log("In set Read only")
       if (Array.isArray(cell) && cell.length > 2) {
         const betweenCells = (selectedArray) => {
           const finalArray = []
