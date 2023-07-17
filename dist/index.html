@@ -109,7 +109,7 @@
           if (!myTable.isReadOnly([first, second])) {
             readOnlyFlag = !readOnlyFlag;
           }
-          myTable.setReadOnly(myTable.selectedCell, readOnlyFlag);
+          myTable.setReadOnly([0,1], true);
         },
       },
       {
