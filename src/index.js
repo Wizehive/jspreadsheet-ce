@@ -1655,14 +1655,49 @@ if (!formula && typeof require === "function") {
         obj.toolbar.classList.add("disabled-toolbar");
       }
       for (var i = 0; i < toolbar.length; i++) {
-        if (toolbar[i].type == "i") {
+        if (
+          toolbar[i].type == "i" &&
+          toolbar[i].showtext &&
+          (toolbar[i].content == "lock" || toolbar[i].content == "ac_unit")
+        ) {
+          var toolbarItem = document.createElement("label");
+          var iconElement = document.createElement("i");
+          iconElement.classList.add("jexcel_toolbar_item");
+          iconElement.classList.add("material-icons");
+          iconElement.textContent = toolbar[i].content;
+          iconElement.setAttribute("data-k", toolbar[i].k);
+          iconElement.setAttribute("data-v", toolbar[i].v);
+          iconElement.setAttribute("id", toolbar[i].id);
+          iconElement.setAttribute("title", toolbar[i].text);
+          toolbarItem.appendChild(iconElement);
+          var textElement = document.createElement("span");
+          textElement.classList.add("icon-text");
+          textElement.innerText = toolbar[i].showtext;
+          textElement.setAttribute("data-text", toolbar[i].showtext);
+          toolbarItem.appendChild(textElement);
+          obj.toolbar.appendChild(toolbarItem);
+          // Handle click
+          if (toolbar[i].onclick && typeof toolbar[i].onclick) {
+            toolbarItem.onclick = (function (a) {
+              var b = a;
+              return function () {
+                toolbar[b].onclick(el, obj, this);
+              };
+            })(i);
+          } else {
+            toolbarItem.onclick = function () {
+              var k = this.getAttribute("data-k");
+              var v = this.getAttribute("data-v");
+              obj.setStyle(obj.highlighted, k, v);
+            };
+          }
+        } else if (toolbar[i].type == "i") {
           var toolbarItem = document.createElement("i");
           toolbarItem.classList.add("jexcel_toolbar_item");
           toolbarItem.classList.add("material-icons");
           toolbarItem.setAttribute("data-k", toolbar[i].k);
           toolbarItem.setAttribute("data-v", toolbar[i].v);
           toolbarItem.setAttribute("id", toolbar[i].id);
-
           // Tooltip
           if (toolbar[i].tooltip) {
             toolbarItem.setAttribute("title", toolbar[i].tooltip);
@@ -5711,44 +5746,60 @@ if (!formula && typeof require === "function") {
     obj.setReadOnly = function (cell, state) {
       if (Array.isArray(cell) && cell.length > 2) {
         const betweenCells = (selectedArray) => {
-          const finalArray = []
+          const finalArray = [];
           const [first, second, third, fourth] = selectedArray;
-          let minCol = first, maxCol = third, minRow = second, maxRow = fourth;
+          let minCol = first,
+            maxCol = third,
+            minRow = second,
+            maxRow = fourth;
           if (third < first) {
-            minCol = third
-            maxCol = first
+            minCol = third;
+            maxCol = first;
           }
           if (second > fourth) {
-            maxRow = second
-            minRow = fourth
+            maxRow = second;
+            minRow = fourth;
           }
           for (let x = minCol; x <= maxCol; x++) {
-            let coords = []
+            let coords = [];
             for (let y = minRow; y <= maxRow; y++) {
-              coords = []
-              coords.push(x)
-              coords.push(y)
-              finalArray.push(coords)
+              coords = [];
+              coords.push(x);
+              coords.push(y);
+              finalArray.push(coords);
             }
           }
           return finalArray;
-        }
-        const arrayOfCoords = betweenCells(cell)
-        console.log("🚀 ~ file: index.js:5737 ~ jexcel ~ arrayOfCoords:", arrayOfCoords)
-        arrayOfCoords.forEach(coord => obj.setReadOnly(coord, state))
+        };
+        const arrayOfCoords = betweenCells(cell);
+        console.log(
+          "🚀 ~ file: index.js:5737 ~ jexcel ~ arrayOfCoords:",
+          arrayOfCoords
+        );
+        arrayOfCoords.forEach((coord) => obj.setReadOnly(coord, state));
       }
       if ((cell = obj.getCell(cell))) {
-        const cellCoords = [cell.getAttribute("data-x"), cell.getAttribute("data-y")]
+        const cellCoords = [
+          cell.getAttribute("data-x"),
+          cell.getAttribute("data-y"),
+        ];
         if (state) {
-          if (obj.readOnlyCells.findIndex(coord => (coord[0] === cellCoords[0] && coord[1] === cellCoords[1])) == -1) {
+          if (
+            obj.readOnlyCells.findIndex(
+              (coord) =>
+                coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+            ) == -1
+          ) {
             cell.classList.add("readonly");
             obj.readOnlyCells.push(cellCoords);
           }
         } else {
           cell.classList.remove("readonly");
-          const indexOfCoords = obj.readOnlyCells.findIndex(coord => (coord[0] === cellCoords[0] && coord[1] === cellCoords[1]))
+          const indexOfCoords = obj.readOnlyCells.findIndex(
+            (coord) => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+          );
           if (indexOfCoords !== -1) {
-            obj.readOnlyCells.splice(indexOfCoords, 1)
+            obj.readOnlyCells.splice(indexOfCoords, 1);
           }
         }
       }
@@ -8420,11 +8471,12 @@ if (!formula && typeof require === "function") {
             }
           }
           obj.headers[i].classList.add("jexcel_freezed");
-          obj.headers[i].style.left = width + "px";
+          obj.headers[i].style.left = width + 50 + "px";
           for (var j = 0; j < obj.rows.length; j++) {
             if (obj.rows[j] && obj.records[j][i]) {
               var shifted =
                 scrollLeft +
+                50 +
                 (i > 0 ? obj.records[j][i - 1].style.width : 0) -
                 51 +
                 "px";
@@ -8452,7 +8504,7 @@ if (!formula && typeof require === "function") {
 
     obj.getReadOnlyCells = function () {
       return obj.readOnlyCells;
-    }
+    };
 
     el.addEventListener("DOMMouseScroll", obj.wheelControls);
     el.addEventListener("mousewheel", obj.wheelControls);
@@ -10317,7 +10369,6 @@ if (!formula && typeof require === "function") {
       return options;
     }
   };
-  
 
   // Helpers
   jexcel.helpers = (function () {

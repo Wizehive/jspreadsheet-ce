@@ -2,15 +2,25 @@
 <link rel="stylesheet" href="jspreadsheet.css" type="text/css" />
 
 <script src="https://jsuites.net/v4/jsuites.js"></script>
-<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+<link
+  rel="stylesheet"
+  href="https://jsuites.net/v4/jsuites.css"
+  type="text/css"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Material+Icons"
+/>
 
-<link rel="stylesheet" type="text/css"
-  href="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css"
+/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
-<div id="spreadsheet"></div>
+<div id="spreadsheet" style="margin-left: 20%"></div>
 <button onclick="getReadOnlyCellss()">Click Me</button>
 
 <script>
@@ -60,7 +70,10 @@
 
   myTable = jspreadsheet(document.getElementById("spreadsheet"), {
     data: data2,
-    minDimensions : [5, 5],
+    minDimensions: [10, 100],
+    tableOverflow: true,
+    tableWidth: "800px",
+    freezeColumns: 2,
     columns: [
       { type: "text", title: "Course Title", width: 300 },
       { type: "text", title: "Time", width: 100, editor: customColumn },
@@ -72,7 +85,6 @@
       {
         type: "i",
         content: "undo",
-        tooltip: "undo",
         onclick: function () {
           myTable.undo();
         },
@@ -81,9 +93,8 @@
       {
         type: "i",
         content: "redo",
-        tooltip: "redo",
         onclick: function () {
-          jRef.current.jexcel.redo();
+          myTable.redo();
         },
         group: "history",
       },
@@ -91,13 +102,23 @@
         type: "i",
         content: "lock",
         tooltip: "Editable",
+        showtext: "Editable",
         onclick: function () {
-          const [first, second] = myTable.selectedCell
+          const [first, second] = myTable.selectedCell;
           let readOnlyFlag = false;
           if (!myTable.isReadOnly([first, second])) {
-            readOnlyFlag = !readOnlyFlag
+            readOnlyFlag = !readOnlyFlag;
           }
-          myTable.setReadOnly(myTable.selectedCell, readOnlyFlag)
+          myTable.setReadOnly(myTable.selectedCell, readOnlyFlag);
+        },
+      },
+      {
+        type: "i",
+        content: "ac_unit",
+        tooltip: "Editable",
+        showtext: "Freeze",
+        onclick: function () {
+          console.log(myTable.getSelectedColumns());
         },
       },
       {
@@ -242,52 +263,57 @@
     disableToolbar: false,
     disableContextMenu: true,
     oneditionstart: (e, td) => {
-      console.log("Edition Start", td)
-      if(td.innerHTML){
+      console.log("Edition Start", td);
+      if (td.innerHTML) {
         if (td.innerHTML.charAt(0) === "=") {
           styleObj = {};
-          const val = td.innerHTML.toUpperCase()
+          const val = td.innerHTML.toUpperCase();
           const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
           const cellReferences = val.match(cellPattern);
           cellReferences?.forEach((cell, index) => {
-            styleObj[cell] = getStyleForCell(index)
-          })
-          myTable.setStyle(styleObj)
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
         }
       }
-      td.addEventListener('input', (event) => {
-        if (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward") {
-          let newStyleObj = {}
-          Object.keys(styleObj).forEach(key => newStyleObj[key] = 'border:;')
-          myTable.setStyle(newStyleObj)
+      td.addEventListener("input", (event) => {
+        if (
+          event.inputType === "deleteContentBackward" ||
+          event.inputType === "deleteContentForward"
+        ) {
+          let newStyleObj = {};
+          Object.keys(styleObj).forEach(
+            (key) => (newStyleObj[key] = "border:;")
+          );
+          myTable.setStyle(newStyleObj);
         }
-        const value = event.target.value
+        const value = event.target.value;
         if (event.key == "=" || value.charAt(0) === "=") {
           styleObj = {};
-          const val = value.toUpperCase()
+          const val = value.toUpperCase();
           const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
           const cellReferences = val.match(cellPattern);
           cellReferences?.forEach((cell, index) => {
-            styleObj[cell] = getStyleForCell(index)
-          })
-          myTable.setStyle(styleObj)
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
         }
-      })
+      });
     },
     oneditionend: (e, td) => {
-      let newStyleObj = {}
-      Object.keys(styleObj).forEach(key => newStyleObj[key] = 'border:;')
-      myTable.setStyle(newStyleObj)
-      styleObj = {}
-    }
+      let newStyleObj = {};
+      Object.keys(styleObj).forEach((key) => (newStyleObj[key] = "border:;"));
+      myTable.setStyle(newStyleObj);
+      styleObj = {};
+    },
   });
   const getStyleForCell = function (index) {
-    const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"]
-    return `border: 2px dashed ${colors[index % colors.length]};`
-  }
+    const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];
+    return `border: 2px dashed ${colors[index % colors.length]};`;
+  };
 
   const getReadOnlyCellss = () => {
-    console.log("Read Only Cells")
-    console.log(myTable.getReadOnlyCells())
-  }
+    console.log("Read Only Cells");
+    console.log(myTable.getReadOnlyCells());
+  };
 </script>

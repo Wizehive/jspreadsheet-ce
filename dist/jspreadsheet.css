@@ -1,5 +1,5 @@
 :root {
-    --jexcel-border-color: #2675AA;
+    --jexcel-border-color: #5CAFE0;
 }
 
 .jexcel_container {
@@ -104,8 +104,7 @@
 }
 
 .jexcel>thead>tr>td.selected {
-    background-color: #2675AA;
-    color: #fff;
+    background-color: #BDDFF2;
 }
 
 .jexcel>thead>tr>td.arrow-up {
@@ -127,6 +126,8 @@
     background-color: #f3f3f3;
     text-align: center;
     left: 0;
+    z-index: 9;   
+    border-right: 1px solid #ccc;
 }
 
 .jexcel>tbody.resizable>tr>td:first-child::before {
@@ -252,7 +253,10 @@
     color: blue;
     cursor: pointer;
 }
-
+td.highlight.highlight-left.highlight-right {
+    background: #E5F1F8;
+    border: 1px solid #5CAFE0;
+}
 .jexcel>tfoot>tr>td {
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
@@ -266,35 +270,31 @@
 }
 
 .jexcel .highlight {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color:#E5F1F8;
 }
 
 .jexcel .highlight-top {
-    border-top: 1px solid #2675AA;
-    /* var(--jexcel-border-color);*/
-    box-shadow: 0px -1px #2675AA;
+    border-top: 1px solid #5CAFE0;
+    box-shadow: 0px -1px #5CAFE0;
 }
 
 .jexcel .highlight-left {
-    border-left: 1px solid #2675AA;
-    /* var(--jexcel-border-color);*/
-    box-shadow: -1px 0px #2675AA;
+    border-left: 1px solid #5CAFE0;
+    box-shadow: -1px 0px #5CAFE0;
 }
 
 .jexcel .highlight-right {
-    border-right: 1px solid #2675AA;
-    /* var(--jexcel-border-color);*/
+    border-right: 1px solid #5CAFE0;
 }
 
 .jexcel .highlight-bottom {
-    border-bottom: 1px solid #2675AA;
-    /* var(--jexcel-border-color);*/
+    border-bottom: 1px solid #5CAFE0;
 }
 
 .jexcel .highlight-top.highlight-left {
-    box-shadow: -1px -1px #2675AA;
-    -webkit-box-shadow: -1px -1px #2675AA;
-    -moz-box-shadow: -1px -1px #2675AA;
+    box-shadow: -1px -1px #5CAFE0;
+    -webkit-box-shadow: -1px -1px #5CAFE0;
+    -moz-box-shadow: -1px -1px #5CAFE0;
 }
 
 .jexcel .highlight-selected {
@@ -323,7 +323,7 @@
 
 .jexcel_corner {
     position: absolute;
-    background-color: #2675AA;
+    background-color: #5CAFE0;
     height: 1px;
     width: 1px;
     border: 1px solid rgb(255, 255, 255);
@@ -638,13 +638,23 @@ thead>tr>td.jexcel_selectall{
     padding: 4px;
     cursor: pointer;
     display: inline-block;
+    position: relative;
 }
 
-.jexcel_toolbar i.jexcel_toolbar_item:hover {
+.jexcel_toolbar label:hover, .jexcel_toolbar i:hover{
     background-color: #ccc;
     border-radius: 3px;
-
 }
+.jexcel_toolbar label {
+    padding-right: 10px;
+    cursor: pointer;
+}
+span.icon-text {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 9px;
+}
+
 
 .jexcel_toolbar select.jexcel_toolbar_item {
     margin-left: 2px;
