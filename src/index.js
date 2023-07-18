@@ -247,6 +247,7 @@ if (!formula && typeof require === "function") {
       onresizecolumn: null,
       onsort: null,
       onselection: null,
+      onheaderselection: null,
       oncopy: null,
       onpaste: null,
       onbeforepaste: null,
@@ -8908,6 +8909,11 @@ if (!formula && typeof require === "function") {
         if (jexcelTable[1] == 1) {
           var columnId = e.target.getAttribute("data-x");
           if (columnId) {
+            jexcel.current.dispatch(
+              "onheaderselection",
+              e,
+              columnId
+            );
             // Update cursor
             var info = e.target.getBoundingClientRect();
             if (

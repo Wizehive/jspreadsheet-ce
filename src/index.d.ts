@@ -1223,6 +1223,11 @@ declare namespace jspreadsheet {
       origin: any
     ) => void;
 
+    onheaderselection?: (
+      element: JspreadsheetInstanceElement,
+      columnId: number
+    ) => void;
+
     /**
      * Occurs after a colum is sorted.
      * @param element - Root HTML element of this jss instance.

@@ -1223,6 +1223,11 @@ declare namespace jspreadsheet {
       origin: any
     ) => void;
 
+    onheaderselection?: (
+      element: JspreadsheetInstanceElement,
+      columnId: number
+    ) => void;
+
     /**
      * Occurs after a colum is sorted.
      * @param element - Root HTML element of this jss instance.
@@ -1778,7 +1783,7 @@ declare namespace jspreadsheet {
      */
     getData: (highlighted?: boolean, dataOnly?: boolean) => CellValue[][];
 
-    getReadOnlyCells: () => number[]
+    getReadOnlyCells: () => number[[number,number]]
 
     /**
      * Get the values of options from a dropdown column based on the column index and the keys of those options.
