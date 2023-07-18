@@ -174,7 +174,7 @@ if (!formula && typeof require === "function") {
       //disable Context Menu
       disableContextMenu: false,
       // Global wrap
-      wordWrap: false,
+      wordWrap: true,
       // Image options
       imageOptions: null,
       // CSV source
