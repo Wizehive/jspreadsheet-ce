@@ -1663,10 +1663,7 @@ if (!formula && typeof require === "function") {
           if (toolbar[i].disable) {
             toolbarItem.setAttribute("data-disabled", "disabled");
           }
-          obj.enableToolbarItem = function () {
-            console.log("hello", toolbar);
-            toolbarItem.removeAttribute("data-disabled");
-          };
+
           var iconElement = document.createElement("i");
           iconElement.classList.add("jexcel_toolbar_item");
           iconElement.classList.add("material-icons");
@@ -1809,7 +1806,11 @@ if (!formula && typeof require === "function") {
       obj.fxbar.appendChild(fxSpan);
       obj.fxbar.appendChild(input2);
     };
-
+    obj.enableToolbarItem = function () {
+      console.log("hello", obj.toolbar.children);
+      obj.toolbar.children[4].removeAttribute("data-disabled");
+      obj.toolbar.children[5].removeAttribute("disabled");
+    };
     obj.setCellIndication = function (val) {
       obj.fxbar.children[0].value = val;
     };
