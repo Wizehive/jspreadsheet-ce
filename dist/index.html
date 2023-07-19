@@ -342,6 +342,7 @@
 
   const getReadOnlyCellss = () => {
     console.log("Read Only Cells");
-    console.log(myTable.getReadOnlyCells());
+    myTable.updateSelectionFromCoords(4,0, 4, 4)
+    // console.log(myTable.getReadOnlyCells());
   };
 </script>

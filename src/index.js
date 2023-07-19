@@ -3394,6 +3394,7 @@ if (!formula && typeof require === "function") {
       if (x1 != null) {
         // Add selected cell
         if (obj.records[y1][x1]) {
+          console.log("In highlight-seslected")
           obj.records[y1][x1].classList.add("highlight-selected");
         }
 
@@ -3510,10 +3511,13 @@ if (!formula && typeof require === "function") {
           if (obj.rows[j] && obj.rows[j].style.display != "none") {
             // Left border
             obj.records[j][borderLeft].classList.add("highlight-left");
+            console.log("🚀 ~ file: index.js:3514 ~ jexcel ~ obj.records:", obj.records[j])
             // Right border
             obj.records[j][borderRight].classList.add("highlight-right");
             // Add selected from rows
             obj.rows[j].classList.add("selected");
+          console.log("In highlight-seslected 2")
+
           }
         }
 
