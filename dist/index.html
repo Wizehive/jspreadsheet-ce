@@ -320,10 +320,18 @@
       myTable.setStyle(newStyleObj);
       styleObj = {};
     },
-    onheaderselection: (e, cid) => {
+    oncolumnselection: (e, cid) => {
       myTable.enableToolbarItem();
-      console.log("On Header Selection", e, cid);
+      console.log("On Column Selection", e, cid);
     },
+    onbodyselection: (e, rid) => {
+      myTable.disableToolbarItem();
+      console.log("On Body Selection", e, rid);
+    },
+    onrowselection: (e, rid) => {
+      // myTable.disableToolbarItem();
+      console.log("On Row Selection", e, rid);
+    }
   });
   const getStyleForCell = function (index) {
     const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];

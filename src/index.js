@@ -247,7 +247,9 @@ if (!formula && typeof require === "function") {
       onresizecolumn: null,
       onsort: null,
       onselection: null,
-      onheaderselection: null,
+      oncolumnselection: null,
+      onrowselection: null,
+      onbodyselection: null,
       oncopy: null,
       onpaste: null,
       onbeforepaste: null,
@@ -1807,9 +1809,13 @@ if (!formula && typeof require === "function") {
       obj.fxbar.appendChild(input2);
     };
     obj.enableToolbarItem = function () {
-      console.log("hello", obj.toolbar.children);
       obj.toolbar.children[4].removeAttribute("data-disabled");
       obj.toolbar.children[5].removeAttribute("disabled");
+    };
+    obj.disableToolbarItem = function () {
+      console.log("🚀 ~ file: index.js:1818 ~ jexcel ~ obj.toolbar:", obj.toolbar)
+      obj.toolbar.children[4].setAttribute("data-disabled", "disabled");
+      obj.toolbar.children[5].setAttribute("disabled", "disabled");
     };
     obj.setCellIndication = function (val) {
       obj.fxbar.children[0].value = val;
@@ -8925,7 +8931,7 @@ if (!formula && typeof require === "function") {
         if (jexcelTable[1] == 1) {
           var columnId = e.target.getAttribute("data-x");
           if (columnId) {
-            jexcel.current.dispatch("onheaderselection", e, columnId);
+            jexcel.current.dispatch("oncolumnselection", e, columnId);
             // Update cursor
             var info = e.target.getBoundingClientRect();
             if (
@@ -9029,8 +9035,9 @@ if (!formula && typeof require === "function") {
         // Body found
         if (jexcelTable[1] == 2) {
           var rowId = e.target.getAttribute("data-y");
-
+          jexcel.current.dispatch("onbodyselection", e, rowId);
           if (e.target.classList.contains("jexcel_row")) {
+            jexcel.current.dispatch("onrowselection", e, rowId);
             var info = e.target.getBoundingClientRect();
             if (
               jexcel.current.options.rowResize == true &&

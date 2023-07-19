@@ -619,6 +619,8 @@ thead>tr>td.jexcel_selectall{
     position: sticky;
     left: 0;
     z-index: 21;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 .jexcel_fxbar input {
     border: none;

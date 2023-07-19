@@ -1223,9 +1223,19 @@ declare namespace jspreadsheet {
       origin: any
     ) => void;
 
-    onheaderselection?: (
+    oncolumnselection?: (
       element: JspreadsheetInstanceElement,
       columnId: number
+    ) => void;
+
+    onbodyselection?: (
+      element: JspreadsheetInstanceElement,
+      rowId: number
+    ) => void;
+
+    onrowselection?: (
+      element: JspreadsheetInstanceElement,
+      rowId: number
     ) => void;
 
     /**

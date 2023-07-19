@@ -1223,9 +1223,19 @@ declare namespace jspreadsheet {
       origin: any
     ) => void;
 
-    onheaderselection?: (
+    oncolumnselection?: (
       element: JspreadsheetInstanceElement,
       columnId: number
+    ) => void;
+
+    onbodyselection?: (
+      element: JspreadsheetInstanceElement,
+      rowId: number
+    ) => void;
+
+    onrowselection?: (
+      element: JspreadsheetInstanceElement,
+      rowId: number
     ) => void;
 
     /**
@@ -2425,9 +2435,6 @@ declare namespace jspreadsheet {
 
     /** set the cell indication like A1, A2 */
     setCellIndication :(value :string) => void;
-
-    /** enable the toolbar option item on header*/
-    enableToolbarItem :(value :boolean) => void;
 
     // set the selected cell value 
     setCellValue:(value:string)=> void;
