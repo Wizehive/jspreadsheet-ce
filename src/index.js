@@ -1428,7 +1428,7 @@ if (!formula && typeof require === "function") {
             obj.options.columns[i].readOnly == true ||
             obj.options.editable == false
           ) {
-            element.setAttribute("disabled", "disabled");
+            element.setAttribute("data-disabled", "disabled");
           }
 
           // Append to the table
@@ -1728,7 +1728,7 @@ if (!formula && typeof require === "function") {
         } else if (toolbar[i].type == "select") {
           var toolbarItem = document.createElement("select");
           if (toolbar[i].disable) {
-            toolbarItem.setAttribute("disabled", "disabled");
+            toolbarItem.setAttribute("data-disabled", "disabled");
           }
           var raiseInitialOnChange = false;
           toolbarItem.classList.add("jexcel_toolbar_item");
@@ -1808,14 +1808,11 @@ if (!formula && typeof require === "function") {
       obj.fxbar.appendChild(fxSpan);
       obj.fxbar.appendChild(input2);
     };
-    obj.enableToolbarItem = function () {
-      obj.toolbar.children[4].removeAttribute("data-disabled");
-      obj.toolbar.children[5].removeAttribute("disabled");
+    obj.enableToolbarItem = function (toolbarItemIndexArray) {
+      toolbarItemIndexArray.forEach(index => obj.toolbar.children[index].removeAttribute("data-disabled")) 
     };
-    obj.disableToolbarItem = function () {
-      console.log("🚀 ~ file: index.js:1818 ~ jexcel ~ obj.toolbar:", obj.toolbar)
-      obj.toolbar.children[4].setAttribute("data-disabled", "disabled");
-      obj.toolbar.children[5].setAttribute("disabled", "disabled");
+    obj.disableToolbarItem = function (toolbarItemIndexArray) {
+      toolbarItemIndexArray.forEach(index => obj.toolbar.children[index].setAttribute("data-disabled", "disabled")) 
     };
     obj.setCellIndication = function (val) {
       obj.fxbar.children[0].value = val;

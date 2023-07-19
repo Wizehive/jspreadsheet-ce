@@ -73,7 +73,7 @@
     minDimensions: [10, 100],
     tableOverflow: true,
     tableWidth: "1000px",
-    freezeColumns: 2,
+    // freezeColumns: 2,
     columns: [
       { type: "text", title: "Course Title", width: 300 },
       { type: "text", title: "Time", width: 100, editor: customColumn },
@@ -124,14 +124,14 @@
         },
       },
       {
+        type: "divisor",
+      },
+      {
         type: "select",
         tooltip: "data-type",
         disable: true,
         k: "data-type",
         v: ["Text", "Number", "Date"], // Custom data type options
-      },
-      {
-        type: "divisor",
       },
       {
         type: "select",
@@ -321,11 +321,11 @@
       styleObj = {};
     },
     oncolumnselection: (e, cid) => {
-      myTable.enableToolbarItem();
+      myTable.enableToolbarItem([4, 6]);
       console.log("On Column Selection", e, cid);
     },
     onbodyselection: (e, rid) => {
-      myTable.disableToolbarItem();
+      myTable.disableToolbarItem([4, 6]);
       console.log("On Body Selection", e, rid);
     },
     onrowselection: (e, rid) => {

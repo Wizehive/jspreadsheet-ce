@@ -105,7 +105,7 @@
     margin-right: 7px;
     background-color: #ccc;
 }
-.jexcel_toolbar label[data-disabled="disabled"] {
+.jexcel_toolbar [data-disabled="disabled"] {
     pointer-events: none;
     opacity: 0.6; /* You can adjust the opacity value as per your preference */
     /* Optionally, you can also change the cursor to indicate the disabled state */
