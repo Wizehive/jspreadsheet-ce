@@ -2426,6 +2426,9 @@ declare namespace jspreadsheet {
     /** set the cell indication like A1, A2 */
     setCellIndication :(value :string) => void;
 
+    /** enable the toolbar option item on header*/
+    enableToolbarItem :(value :boolean) => void;
+
     // set the selected cell value 
     setCellValue:(value:string)=> void;
     /**

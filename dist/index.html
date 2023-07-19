@@ -72,7 +72,7 @@
     data: data2,
     minDimensions: [10, 100],
     tableOverflow: true,
-    tableWidth: "800px",
+    tableWidth: "1000px",
     freezeColumns: 2,
     columns: [
       { type: "text", title: "Course Title", width: 300 },
@@ -88,7 +88,6 @@
         onclick: function () {
           myTable.undo();
         },
-        group: "history",
       },
       {
         type: "i",
@@ -96,7 +95,9 @@
         onclick: function () {
           myTable.redo();
         },
-        group: "history",
+      },
+      {
+        type: "divisor",
       },
       {
         type: "i",
@@ -109,14 +110,15 @@
           if (!myTable.isReadOnly([first, second])) {
             readOnlyFlag = !readOnlyFlag;
           }
-          myTable.setReadOnly([0,1], true);
+          myTable.setReadOnly([0, 1], true);
         },
       },
       {
         type: "i",
         content: "ac_unit",
-        tooltip: "Editable",
+        tooltip: "freeze",
         showtext: "Freeze",
+        disable: true,
         onclick: function () {
           console.log(myTable.getSelectedColumns());
         },
@@ -124,8 +126,12 @@
       {
         type: "select",
         tooltip: "data-type",
+        disable: true,
         k: "data-type",
         v: ["Text", "Number", "Date"], // Custom data type options
+      },
+      {
+        type: "divisor",
       },
       {
         type: "select",
@@ -151,28 +157,7 @@
         ],
       },
       {
-        type: "i",
-        content: "format_align_left",
-        k: "text-align",
-        v: "left",
-      },
-      {
-        type: "i",
-        content: "format_align_center",
-        k: "text-align",
-        v: "center",
-      },
-      {
-        type: "i",
-        content: "format_align_right",
-        k: "text-align",
-        v: "right",
-      },
-      {
-        type: "i",
-        content: "format_align_justify",
-        k: "text-align",
-        v: "justify",
+        type: "divisor",
       },
       {
         type: "i",
@@ -198,7 +183,9 @@
         k: "text-decoration",
         v: "line-through",
       },
-
+      {
+        type: "divisor",
+      },
       {
         type: "color",
         content: "format_color_text",
@@ -208,6 +195,33 @@
         type: "color",
         content: "format_color_fill",
         k: "background-color",
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "format_align_left",
+        k: "text-align",
+        v: "left",
+      },
+      {
+        type: "i",
+        content: "format_align_center",
+        k: "text-align",
+        v: "center",
+      },
+      {
+        type: "i",
+        content: "format_align_right",
+        k: "text-align",
+        v: "right",
+      },
+      {
+        type: "i",
+        content: "format_align_justify",
+        k: "text-align",
+        v: "justify",
       },
     ],
     onselection: function (
@@ -306,7 +320,10 @@
       myTable.setStyle(newStyleObj);
       styleObj = {};
     },
-    onheaderselection: (e, cid)=> {console.log("On Header Selection",e, cid)}
+    onheaderselection: (e, cid) => {
+      myTable.enableToolbarItem();
+      console.log("On Header Selection", e, cid);
+    },
   });
   const getStyleForCell = function (index) {
     const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];
