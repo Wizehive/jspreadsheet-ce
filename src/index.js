@@ -1750,6 +1750,11 @@ if (!formula && typeof require === "function") {
           // Add options to the dropdown
           for (var j = 0; j < toolbar[i].v.length; j++) {
             var toolbarDropdownOption = document.createElement("option");
+            if(j == 0){
+              toolbarDropdownOption.selected = true
+              toolbarDropdownOption.hidden = true
+              toolbarDropdownOption.disabled = true
+            }
             toolbarDropdownOption.value = toolbar[i].v[j];
             toolbarDropdownOption.textContent = toolbar[i].v[j];
             if (
@@ -1808,6 +1813,7 @@ if (!formula && typeof require === "function") {
       obj.fxbar.appendChild(fxSpan);
       obj.fxbar.appendChild(input2);
     };
+
     obj.enableToolbarItem = function (toolbarItemIndexArray) {
       toolbarItemIndexArray.forEach(index => obj.toolbar.children[index].removeAttribute("data-disabled")) 
     };
@@ -1820,6 +1826,12 @@ if (!formula && typeof require === "function") {
     obj.setCellValue = function (val) {
       obj.fxbar.children[2].value = val;
     };
+
+    obj.setDataTypeOptionSelected = function (toolbarItemIndex, optionIndex) {
+      // obj.toolbar.children[toolbarItemIndex]
+      console.log("🚀 ~ file: index.js:1832 ~ obj.toolbar.children[toolbarItemIndex]:", obj.toolbar.children[toolbarItemIndex].children[optionIndex])
+      obj.toolbar.children[toolbarItemIndex].children[optionIndex].selected = true
+    }
     /**
      * Merge cells
      * @param cellName

@@ -131,7 +131,7 @@
         tooltip: "data-type",
         disable: true,
         k: "data-type",
-        v: ["Text", "Number", "Date"], // Custom data type options
+        v: ["Data Types","Text", "Number", "Date"], // Custom data type options
       },
       {
         type: "select",
@@ -323,6 +323,7 @@
     oncolumnselection: (e, cid) => {
       myTable.enableToolbarItem([4, 6]);
       console.log("On Column Selection", e, cid);
+      myTable.setDataTypeOptionSelected(6, 2)
     },
     onbodyselection: (e, rid) => {
       myTable.disableToolbarItem([4, 6]);
@@ -332,6 +333,7 @@
       // myTable.disableToolbarItem();
       console.log("On Row Selection", e, rid);
     }
+
   });
   const getStyleForCell = function (index) {
     const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];
