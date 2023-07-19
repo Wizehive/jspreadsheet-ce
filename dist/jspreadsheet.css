@@ -139,7 +139,7 @@
     background-color: #f3f3f3;
     text-align: center;
     left: 0;
-    z-index: 9;   
+    z-index: 2;   
     border-right: 1px solid #ccc;
 }
 
@@ -622,6 +622,22 @@ thead>tr>td.jexcel_selectall{
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
+tbody tr.jexcel-row-freeze {
+    position: sticky;
+    top: 24px;
+    background-color: #fff; /* You can change the background color as needed */
+    z-index: 3; /* Adjust the z-index to make sure it stays on top of other content */
+    border-bottom: 1px solid #ccc;
+    background-color: #f3f3f3;
+  }
+  /* Style for the first cell (td) of the first row of tbody */
+tbody tr:first-child td.jexcel-row-freeze{
+    position: sticky;
+    left: 0;
+    top: 24px;
+    background-color: #f3f3f3;/* You can change the background color as needed */
+    z-index: 3; /* Adjust the z-index to make sure it stays on top of other content, including the first row */
+  }
 .jexcel_fxbar input {
     border: none;
     padding: 4px;
