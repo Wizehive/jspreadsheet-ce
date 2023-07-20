@@ -15,8 +15,8 @@ if (!formula && typeof require === "function") {
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
     : typeof define === "function" && define.amd
-    ? define(factory)
-    : (global.jspreadsheet = global.jexcel = factory());
+      ? define(factory)
+      : (global.jspreadsheet = global.jexcel = factory());
 })(this, function () {
   "use strict";
 
@@ -116,6 +116,7 @@ if (!formula && typeof require === "function") {
       // Rows and columns definitions
       rows: [],
       columns: [],
+      cellDataTypes: [],
       // Deprected legacy options
       colHeaders: [],
       colWidths: [],
@@ -459,6 +460,7 @@ if (!formula && typeof require === "function") {
 
       // Number of columns
       var size = obj.options.columns.length;
+      var rowSize = 0;
 
       if (obj.options.data && typeof obj.options.data[0] !== "undefined") {
         // Data keys
@@ -467,11 +469,16 @@ if (!formula && typeof require === "function") {
         if (keys.length > size) {
           size = keys.length;
         }
+        rowSize = obj.options.data.length
       }
 
       // Minimal dimensions
       if (obj.options.minDimensions[0] > size) {
         size = obj.options.minDimensions[0];
+      }
+
+      if (obj.options.minDimensions[1] > rowSize) {
+        rowSize = obj.options.minDimensions[1];
       }
 
       // Requests
@@ -554,6 +561,26 @@ if (!formula && typeof require === "function") {
           }
         }
       }
+
+      // Preparations for cell Types
+      for (var rowIndex = 0; rowIndex < rowSize; rowIndex++) {
+        if (!obj.options.cellDataTypes[rowIndex]) {
+          obj.options.cellDataTypes[rowIndex] = []
+        }
+        for (var columnIndex = 0; columnIndex < size; columnIndex++) {
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex]) {
+            obj.options.cellDataTypes[rowIndex][columnIndex] = { type: "text" };
+          } else if (!obj.options.cellDataTypes[rowIndex][columnIndex].type) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].type = "text";
+          }
+          if (obj.options.cellDataTypes[rowIndex][columnIndex].type == "calendar") {
+            if (!obj.options.cellDataTypes[rowIndex][columnIndex].options.format) {
+              obj.options.cellDataTypes[rowIndex][columnIndex].options.format = "DD/MM/YYYY";
+            }
+          }
+        }
+      }
+
       // Create the table when is ready
       if (!multiple.length) {
         obj.createTable();
@@ -760,7 +787,7 @@ if (!formula && typeof require === "function") {
           img.src = "//bossanova.uk/jspreadsheet/logo.png";
           ads.appendChild(img);
         }
-      } catch (exception) {}
+      } catch (exception) { }
       var span = document.createElement("span");
       span.innerHTML = "Jspreadsheet CE";
       ads.appendChild(span);
@@ -1393,100 +1420,179 @@ if (!formula && typeof require === "function") {
       }
 
       // Custom column
-      if (obj.options.columns[i].editor) {
+      // if (obj.options.columns[i].editor) {
+      //   if (
+      //     obj.options.stripHTML === false ||
+      //     obj.options.columns[i].stripHTML === false
+      //   ) {
+      //     td.innerHTML = value;
+      //   } else {
+      //     td.textContent = value;
+      //   }
+      //   if (typeof obj.options.columns[i].editor.createCell == "function") {
+      //     td = obj.options.columns[i].editor.createCell(td);
+      //   }
+      // } else {
+      //   // Hidden column
+      //   if (obj.options.columns[i].type == "hidden") {
+      //     td.style.display = "none";
+      //     td.textContent = value;
+      //   } else if (
+      //     obj.options.columns[i].type == "checkbox" ||
+      //     obj.options.columns[i].type == "radio"
+      //   ) {
+      //     // Create input
+      //     var element = document.createElement("input");
+      //     element.type = obj.options.columns[i].type;
+      //     element.name = "c" + i;
+      //     element.checked =
+      //       value == 1 || value == true || value == "true" ? true : false;
+      //     element.onclick = function () {
+      //       obj.setValue(td, this.checked);
+      //     };
+
+      //     if (
+      //       obj.options.columns[i].readOnly == true ||
+      //       obj.options.editable == false
+      //     ) {
+      //       element.setAttribute("data-disabled", "disabled");
+      //     }
+
+      //     // Append to the table
+      //     td.appendChild(element);
+      //     // Make sure the values are correct
+      //     obj.options.data[j][i] = element.checked;
+      //   } else if (obj.options.columns[i].type == "calendar") {
+      //     // Try formatted date
+      //     var formatted = null;
+      //     if (!validDate(value)) {
+      //       var tmp = jSuites.calendar.extractDateFromString(
+      //         value,
+      //         obj.options.columns[i].options.format
+      //       );
+      //       if (tmp) {
+      //         formatted = tmp;
+      //       }
+      //     }
+      //     // Create calendar cell
+      //     td.textContent = jSuites.calendar.getDateString(
+      //       formatted ? formatted : value,
+      //       obj.options.columns[i].options.format
+      //     );
+      //   } else if (
+      //     obj.options.columns[i].type == "dropdown" ||
+      //     obj.options.columns[i].type == "autocomplete"
+      //   ) {
+      //     // Create dropdown cell
+      //     td.classList.add("jexcel_dropdown");
+      //     td.textContent = obj.getDropDownValue(i, value);
+      //   } else if (obj.options.columns[i].type == "color") {
+      //     if (obj.options.columns[i].render == "square") {
+      //       var color = document.createElement("div");
+      //       color.className = "color";
+      //       color.style.backgroundColor = value;
+      //       td.appendChild(color);
+      //     } else {
+      //       td.style.color = value;
+      //       td.textContent = value;
+      //     }
+      //   } else if (obj.options.columns[i].type == "image") {
+      //     if (value && value.substr(0, 10) == "data:image") {
+      //       var img = document.createElement("img");
+      //       img.src = value;
+      //       td.appendChild(img);
+      //     }
+      //   } else {
+      //     if (obj.options.columns[i].type == "html") {
+      //       td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
+      //     } else {
+      //       if (
+      //         obj.options.stripHTML === false ||
+      //         obj.options.columns[i].stripHTML === false
+      //       ) {
+      //         td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
+      //       } else {
+      //         td.textContent = obj.parseValue(i, j, value, td);
+      //       }
+      //     }
+      //   }
+      // }
+      if (
+        obj.options?.cellDataTypes[j][i].type == "checkbox" ||
+        obj.options?.cellDataTypes[j][i].type == "radio"
+      ) {
+        // Create input
+        var element = document.createElement("input");
+        element.type = obj.options?.cellDataTypes[j][i].type;
+        element.name = "c" + i;
+        element.checked =
+          value == 1 || value == true || value == "true" ? true : false;
+        element.onclick = function () {
+          obj.setValue(td, this.checked);
+        };
+
         if (
-          obj.options.stripHTML === false ||
-          obj.options.columns[i].stripHTML === false
+          obj.options?.cellDataTypes[j][i].readOnly == true ||
+          obj.options.editable == false
         ) {
-          td.innerHTML = value;
+          element.setAttribute("data-disabled", "disabled");
+        }
+
+        // Append to the table
+        td.appendChild(element);
+        // Make sure the values are correct
+        obj.options.data[j][i] = element.checked;
+      } else if (obj.options?.cellDataTypes[j][i].type == "calendar") {
+        // Try formatted date
+        var formatted = null;
+        if (!validDate(value)) {
+          var tmp = jSuites.calendar.extractDateFromString(
+            value,
+            obj.options?.cellDataTypes[j][i].options.format
+          );
+          if (tmp) {
+            formatted = tmp;
+          }
+        }
+        // Create calendar cell
+        td.textContent = jSuites.calendar.getDateString(
+          formatted ? formatted : value,
+          obj.options?.cellDataTypes[j][i].options.format
+        );
+      } else if (
+        obj.options?.cellDataTypes[j][i].type == "dropdown" ||
+        obj.options?.cellDataTypes[j][i].type == "autocomplete"
+      ) {
+        // Create dropdown cell
+        td.classList.add("jexcel_dropdown");
+        td.textContent = obj.getDropDownValue(i, value);
+      } else if (obj.options?.cellDataTypes[j][i].type == "color") {
+        if (obj.options?.cellDataTypes[j][i].render == "square") {
+          var color = document.createElement("div");
+          color.className = "color";
+          color.style.backgroundColor = value;
+          td.appendChild(color);
         } else {
+          td.style.color = value;
           td.textContent = value;
         }
-        if (typeof obj.options.columns[i].editor.createCell == "function") {
-          td = obj.options.columns[i].editor.createCell(td);
+      } else if (obj.options?.cellDataTypes[j][i].type == "image") {
+        if (value && value.substr(0, 10) == "data:image") {
+          var img = document.createElement("img");
+          img.src = value;
+          td.appendChild(img);
         }
       } else {
-        // Hidden column
-        if (obj.options.columns[i].type == "hidden") {
-          td.style.display = "none";
-          td.textContent = value;
-        } else if (
-          obj.options.columns[i].type == "checkbox" ||
-          obj.options.columns[i].type == "radio"
-        ) {
-          // Create input
-          var element = document.createElement("input");
-          element.type = obj.options.columns[i].type;
-          element.name = "c" + i;
-          element.checked =
-            value == 1 || value == true || value == "true" ? true : false;
-          element.onclick = function () {
-            obj.setValue(td, this.checked);
-          };
-
-          if (
-            obj.options.columns[i].readOnly == true ||
-            obj.options.editable == false
-          ) {
-            element.setAttribute("data-disabled", "disabled");
-          }
-
-          // Append to the table
-          td.appendChild(element);
-          // Make sure the values are correct
-          obj.options.data[j][i] = element.checked;
-        } else if (obj.options.columns[i].type == "calendar") {
-          // Try formatted date
-          var formatted = null;
-          if (!validDate(value)) {
-            var tmp = jSuites.calendar.extractDateFromString(
-              value,
-              obj.options.columns[i].options.format
-            );
-            if (tmp) {
-              formatted = tmp;
-            }
-          }
-          // Create calendar cell
-          td.textContent = jSuites.calendar.getDateString(
-            formatted ? formatted : value,
-            obj.options.columns[i].options.format
-          );
-        } else if (
-          obj.options.columns[i].type == "dropdown" ||
-          obj.options.columns[i].type == "autocomplete"
-        ) {
-          // Create dropdown cell
-          td.classList.add("jexcel_dropdown");
-          td.textContent = obj.getDropDownValue(i, value);
-        } else if (obj.options.columns[i].type == "color") {
-          if (obj.options.columns[i].render == "square") {
-            var color = document.createElement("div");
-            color.className = "color";
-            color.style.backgroundColor = value;
-            td.appendChild(color);
-          } else {
-            td.style.color = value;
-            td.textContent = value;
-          }
-        } else if (obj.options.columns[i].type == "image") {
-          if (value && value.substr(0, 10) == "data:image") {
-            var img = document.createElement("img");
-            img.src = value;
-            td.appendChild(img);
-          }
+        if (obj.options?.cellDataTypes[j][i].type == "html") {
+          td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
         } else {
-          if (obj.options.columns[i].type == "html") {
+          if (
+            obj.options.stripHTML === false ||
+            obj.options?.cellDataTypes[j][i].stripHTML === false
+          ) {
             td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
           } else {
-            if (
-              obj.options.stripHTML === false ||
-              obj.options.columns[i].stripHTML === false
-            ) {
-              td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
-            } else {
-              td.textContent = obj.parseValue(i, j, value, td);
-            }
+            td.textContent = obj.parseValue(i, j, value, td);
           }
         }
       }
@@ -2328,7 +2434,7 @@ if (!formula && typeof require === "function") {
               multiple: obj.options.columns[x].multiple ? true : false,
               autocomplete:
                 obj.options.columns[x].autocomplete ||
-                obj.options.columns[x].type == "autocomplete"
+                  obj.options.columns[x].type == "autocomplete"
                   ? true
                   : false,
               opened: true,
@@ -2337,7 +2443,7 @@ if (!formula && typeof require === "function") {
               height: editor.style.minHeight,
               position:
                 obj.options.tableOverflow == true ||
-                obj.options.fullscreen == true
+                  obj.options.fullscreen == true
                   ? true
                   : false,
               onclose: function () {
@@ -2493,30 +2599,30 @@ if (!formula && typeof require === "function") {
         } else {
           // Native functions
           if (
-            obj.options.columns[x].type == "checkbox" ||
-            obj.options.columns[x].type == "radio" ||
-            obj.options.columns[x].type == "hidden"
+            obj.options.cellDataTypes[y][x].type == "checkbox" ||
+            obj.options.cellDataTypes[y][x].type == "radio" ||
+            obj.options.cellDataTypes[y][x].type == "hidden"
           ) {
             // Do nothing
           } else if (
-            obj.options.columns[x].type == "dropdown" ||
-            obj.options.columns[x].type == "autocomplete"
+            obj.options.cellDataTypes[y][x].type == "dropdown" ||
+            obj.options.cellDataTypes[y][x].type == "autocomplete"
           ) {
             var value = cell.children[0].dropdown.close(true);
-          } else if (obj.options.columns[x].type == "calendar") {
+          } else if (obj.options.cellDataTypes[y][x].type == "calendar") {
             var value = cell.children[0].calendar.close(true);
-          } else if (obj.options.columns[x].type == "color") {
+          } else if (obj.options.cellDataTypes[y][x].type == "color") {
             var value = cell.children[0].color.close(true);
-          } else if (obj.options.columns[x].type == "html") {
+          } else if (obj.options.cellDataTypes[y][x].type == "html") {
             var value = cell.children[0].children[0].editor.getData();
-          } else if (obj.options.columns[x].type == "image") {
+          } else if (obj.options.cellDataTypes[y][x].type == "image") {
             var img = cell.children[0].children[0].children[0];
             var value = img && img.tagName == "IMG" ? img.src : "";
-          } else if (obj.options.columns[x].type == "numeric") {
+          } else if (obj.options.cellDataTypes[y][x].type == "numeric") {
             var value = cell.children[0].value;
             if (("" + value).substr(0, 1) != "=") {
               if (value == "") {
-                value = obj.options.columns[x].allowEmpty ? "" : 0;
+                value = obj.options.cellDataTypes[y][x].allowEmpty ? "" : 0;
               }
             }
             cell.children[0].onblur = null;
@@ -2556,13 +2662,13 @@ if (!formula && typeof require === "function") {
           obj.options.columns[x].editor.closeEditor(cell, save);
         } else {
           if (
-            obj.options.columns[x].type == "dropdown" ||
-            obj.options.columns[x].type == "autocomplete"
+            obj.options.cellDataTypes[y][x].type == "dropdown" ||
+            obj.options.cellDataTypes[y][x].type == "autocomplete"
           ) {
             cell.children[0].dropdown.close(true);
-          } else if (obj.options.columns[x].type == "calendar") {
+          } else if (obj.options.cellDataTypes[y][x].type == "calendar") {
             cell.children[0].calendar.close(true);
-          } else if (obj.options.columns[x].type == "color") {
+          } else if (obj.options.cellDataTypes[y][x].type == "color") {
             cell.children[0].color.close(true);
           } else {
             cell.children[0].onblur = null;
@@ -2863,7 +2969,7 @@ if (!formula && typeof require === "function") {
       var b = new Option();
       b.innerHTML = a;
       var c = null;
-      for (a = b.getElementsByTagName("script"); (c = a[0]); )
+      for (a = b.getElementsByTagName("script"); (c = a[0]);)
         c.parentNode.removeChild(c);
       return b.innerHTML;
     };
@@ -2943,11 +3049,11 @@ if (!formula && typeof require === "function") {
         } else {
           // Native functions
           if (
-            obj.options.columns[x].type == "checkbox" ||
-            obj.options.columns[x].type == "radio"
+            obj.options.cellDataTypes[y][x].type == "checkbox" ||
+            obj.options.cellDataTypes[y][x].type == "radio"
           ) {
             // Unchecked all options
-            if (obj.options.columns[x].type == "radio") {
+            if (obj.options.cellDataTypes[y][x].type == "radio") {
               for (var j = 0; j < obj.options.data.length; j++) {
                 obj.options.data[j][x] = false;
               }
@@ -2960,19 +3066,19 @@ if (!formula && typeof require === "function") {
                 : false;
             obj.options.data[y][x] = obj.records[y][x].children[0].checked;
           } else if (
-            obj.options.columns[x].type == "dropdown" ||
-            obj.options.columns[x].type == "autocomplete"
+            obj.options.cellDataTypes[y][x].type == "dropdown" ||
+            obj.options.cellDataTypes[y][x].type == "autocomplete"
           ) {
             // Update data and cell
             obj.options.data[y][x] = value;
             obj.records[y][x].textContent = obj.getDropDownValue(x, value);
-          } else if (obj.options.columns[x].type == "calendar") {
+          } else if (obj.options.cellDataTypes[y][x].type == "calendar") {
             // Try formatted date
             var formatted = null;
             if (!validDate(value)) {
               var tmp = jSuites.calendar.extractDateFromString(
                 value,
-                obj.options.columns[x].options.format
+                obj.options.cellDataTypes[y][x].options.format
               );
               if (tmp) {
                 formatted = tmp;
@@ -2982,13 +3088,13 @@ if (!formula && typeof require === "function") {
             obj.options.data[y][x] = value;
             obj.records[y][x].textContent = jSuites.calendar.getDateString(
               formatted ? formatted : value,
-              obj.options.columns[x].options.format
+              obj.options.cellDataTypes[y][x].options.format
             );
-          } else if (obj.options.columns[x].type == "color") {
+          } else if (obj.options.cellDataTypes[y][x].type == "color") {
             // Update color
             obj.options.data[y][x] = value;
             // Render
-            if (obj.options.columns[x].render == "square") {
+            if (obj.options.cellDataTypes[y][x].render == "square") {
               var color = document.createElement("div");
               color.className = "color";
               color.style.backgroundColor = value;
@@ -2998,7 +3104,7 @@ if (!formula && typeof require === "function") {
               obj.records[y][x].style.color = value;
               obj.records[y][x].textContent = value;
             }
-          } else if (obj.options.columns[x].type == "image") {
+          } else if (obj.options.cellDataTypes[y][x].type == "image") {
             value = "" + value;
             obj.options.data[y][x] = value;
             obj.records[y][x].innerHTML = "";
@@ -3011,14 +3117,14 @@ if (!formula && typeof require === "function") {
             // Update data and cell
             obj.options.data[y][x] = value;
             // Label
-            if (obj.options.columns[x].type == "html") {
+            if (obj.options.cellDataTypes[y][x].type == "html") {
               obj.records[y][x].innerHTML = stripScript(
                 obj.parseValue(x, y, value)
               );
             } else {
               if (
                 obj.options.stripHTML === false ||
-                obj.options.columns[x].stripHTML === false
+                obj.options.cellDataTypes[y][x].stripHTML === false
               ) {
                 obj.records[y][x].innerHTML = stripScript(
                   obj.parseValue(x, y, value, obj.records[y][x])
@@ -4403,22 +4509,22 @@ if (!formula && typeof require === "function") {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                  ? -1
-                  : valueA > valueB
-                  ? 1
-                  : valueA < valueB
-                  ? -1
-                  : 0;
+                    ? -1
+                    : valueA > valueB
+                      ? 1
+                      : valueA < valueB
+                        ? -1
+                        : 0;
               } else {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                  ? -1
-                  : valueA > valueB
-                  ? -1
-                  : valueA < valueB
-                  ? 1
-                  : 0;
+                    ? -1
+                    : valueA > valueB
+                      ? -1
+                      : valueA < valueB
+                        ? 1
+                        : 0;
               }
             };
           };
@@ -6162,7 +6268,7 @@ if (!formula && typeof require === "function") {
                 if (
                   typeof obj.options.data[position[1]] != "undefined" &&
                   typeof obj.options.data[position[1]][position[0]] !=
-                    "undefined"
+                  "undefined"
                 ) {
                   var value = obj.options.data[position[1]][position[0]];
                 } else {
@@ -6261,12 +6367,12 @@ if (!formula && typeof require === "function") {
     /**
      * Get row number
      */
-    obj.row = function (cell) {};
+    obj.row = function (cell) { };
 
     /**
      * Get col number
      */
-    obj.col = function (cell) {};
+    obj.col = function (cell) { };
 
     obj.up = function (shiftKey, ctrlKey) {
       if (shiftKey) {
@@ -8660,9 +8766,9 @@ if (!formula && typeof require === "function") {
             jexcel.current.closeEditor(jexcel.current.edition[0], true);
           } else if (
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-              "dropdown" ||
+            "dropdown" ||
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-              "autocomplete"
+            "autocomplete"
           ) {
             // Do nothing
           } else {
@@ -8846,7 +8952,7 @@ if (!formula && typeof require === "function") {
                     e.preventDefault();
                     if (
                       jexcel.current.options.columns[columnId].type ==
-                        "checkbox" ||
+                      "checkbox" ||
                       jexcel.current.options.columns[columnId].type == "radio"
                     ) {
                       jexcel.current.setCheckRadioValue();
@@ -8870,7 +8976,7 @@ if (!formula && typeof require === "function") {
                     (e.keyCode >= 187 && e.keyCode <= 190) ||
                     ((String.fromCharCode(e.keyCode) == e.key ||
                       String.fromCharCode(e.keyCode).toLowerCase() ==
-                        e.key.toLowerCase()) &&
+                      e.key.toLowerCase()) &&
                       jexcel.validLetter(String.fromCharCode(e.keyCode)))
                   ) {
                     // Start edition
@@ -10509,7 +10615,7 @@ if (!formula && typeof require === "function") {
     /**
      * Extract json configuration from a TABLE DOM tag
      */
-    component.createFromTable = function () {};
+    component.createFromTable = function () { };
 
     /**
      * Helper injectArray
