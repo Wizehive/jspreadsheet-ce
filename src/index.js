@@ -2416,11 +2416,11 @@ if (!formula && typeof require === "function") {
           obj.options.columns[x].editor.openEditor(cell, el, empty, e);
         } else {
           // Native functions
-          if (obj.options.columns[x].type == "hidden") {
+          if (obj.options.cellDataTypes[y][x].type == "hidden") {
             // Do nothing
           } else if (
-            obj.options.columns[x].type == "checkbox" ||
-            obj.options.columns[x].type == "radio"
+            obj.options.cellDataTypes[y][x].type == "checkbox" ||
+            obj.options.cellDataTypes[y][x].type == "radio"
           ) {
             // Get value
             var value = cell.children[0].checked ? false : true;
@@ -2429,26 +2429,26 @@ if (!formula && typeof require === "function") {
             // Do not keep edition open
             obj.edition = null;
           } else if (
-            obj.options.columns[x].type == "dropdown" ||
-            obj.options.columns[x].type == "autocomplete"
+            obj.options.cellDataTypes[y][x].type == "dropdown" ||
+            obj.options.cellDataTypes[y][x].type == "autocomplete"
           ) {
             // Get current value
             var value = obj.options.data[y][x];
-            if (obj.options.columns[x].multiple && !Array.isArray(value)) {
+            if (obj.options.cellDataTypes[y][x].multiple && !Array.isArray(value)) {
               value = value.split(";");
             }
 
             // Create dropdown
-            if (typeof obj.options.columns[x].filter == "function") {
-              var source = obj.options.columns[x].filter(
+            if (typeof obj.options.cellDataTypes[y][x].filter == "function") {
+              var source = obj.options.cellDataTypes[y][x].filter(
                 el,
                 cell,
                 x,
                 y,
-                obj.options.columns[x].source
+                obj.options.cellDataTypes[y][x].source
               );
             } else {
-              var source = obj.options.columns[x].source;
+              var source = obj.options.cellDataTypes[y][x].source;
             }
 
             // Do not change the original source
@@ -2461,10 +2461,10 @@ if (!formula && typeof require === "function") {
             var editor = createEditor("div");
             var options = {
               data: data,
-              multiple: obj.options.columns[x].multiple ? true : false,
+              multiple: obj.options.cellDataTypes[y][x].multiple ? true : false,
               autocomplete:
-                obj.options.columns[x].autocomplete ||
-                  obj.options.columns[x].type == "autocomplete"
+                obj.options.cellDataTypes[y][x].autocomplete ||
+                  obj.options.cellDataTypes[y][x].type == "autocomplete"
                   ? true
                   : false,
               opened: true,
@@ -2481,15 +2481,15 @@ if (!formula && typeof require === "function") {
               },
             };
             if (
-              obj.options.columns[x].options &&
-              obj.options.columns[x].options.type
+              obj.options.cellDataTypes[y][x].options &&
+              obj.options.cellDataTypes[y][x].options.type
             ) {
-              options.type = obj.options.columns[x].options.type;
+              options.type = obj.options.cellDataTypes[y][x].options.type;
             }
             jSuites.dropdown(editor, options);
           } else if (
-            obj.options.columns[x].type == "calendar" ||
-            obj.options.columns[x].type == "color"
+            obj.options.cellDataTypes[y][x].type == "calendar" ||
+            obj.options.cellDataTypes[y][x].type == "color"
           ) {
             // Value
             var value = obj.options.data[y][x];
@@ -2501,22 +2501,22 @@ if (!formula && typeof require === "function") {
               obj.options.tableOverflow == true ||
               obj.options.fullscreen == true
             ) {
-              obj.options.columns[x].options.position = true;
+              obj.options.cellDataTypes[y][x].options.position = true;
             }
-            obj.options.columns[x].options.value = obj.options.data[y][x];
-            obj.options.columns[x].options.opened = true;
-            obj.options.columns[x].options.onclose = function (el, value) {
+            obj.options.cellDataTypes[y][x].options.value = obj.options.data[y][x];
+            obj.options.cellDataTypes[y][x].options.opened = true;
+            obj.options.cellDataTypes[y][x].options.onclose = function (el, value) {
               obj.closeEditor(cell, true);
             };
             // Current value
-            if (obj.options.columns[x].type == "color") {
-              jSuites.color(editor, obj.options.columns[x].options);
+            if (obj.options.cellDataTypes[y][x].type == "color") {
+              jSuites.color(editor, obj.options.cellDataTypes[y][x].options);
             } else {
-              jSuites.calendar(editor, obj.options.columns[x].options);
+              jSuites.calendar(editor, obj.options.cellDataTypes[y][x].options);
             }
             // Focus on editor
             editor.focus();
-          } else if (obj.options.columns[x].type == "html") {
+          } else if (obj.options.cellDataTypes[y][x].type == "html") {
             var value = obj.options.data[y][x];
             // Create editor
             var editor = createEditor("div");
@@ -2535,7 +2535,7 @@ if (!formula && typeof require === "function") {
             } else {
               div.style.top = rect.top + "px";
             }
-          } else if (obj.options.columns[x].type == "image") {
+          } else if (obj.options.cellDataTypes[y][x].type == "image") {
             // Value
             var img = cell.children[0];
             // Create editor
@@ -2561,9 +2561,9 @@ if (!formula && typeof require === "function") {
 
             // Basic editor
             if (
-              obj.options.columns[x].wordWrap != false &&
+              obj.options.cellDataTypes[y][x].wordWrap != false &&
               (obj.options.wordWrap == true ||
-                obj.options.columns[x].wordWrap == true)
+                obj.options.cellDataTypes[y][x].wordWrap == true)
             ) {
               var editor = createEditor("textarea");
             } else {
@@ -2574,7 +2574,7 @@ if (!formula && typeof require === "function") {
             editor.value = value;
 
             // Column options
-            var options = obj.options.columns[x];
+            var options = obj.options.cellDataTypes[y][x];
             // Format
             var opt = null;
 
