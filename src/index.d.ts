@@ -1230,7 +1230,8 @@ declare namespace jspreadsheet {
 
     onbodyselection?: (
       element: JspreadsheetInstanceElement,
-      rowId: number
+      rowId: number,
+      columnId: number
     ) => void;
 
     onrowselection?: (

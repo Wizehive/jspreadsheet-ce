@@ -234,75 +234,6 @@ declare namespace jspreadsheet {
 
   type Column = DropdownColumn | CalendarColumn | ColorColumn | BaseColumn;
 
-  interface CellDataType {
-
-    /** Cell mask. */
-    mask?: string;
-
-    /**
-     * If true, HTML inside column headings or cell values will be treated as regular text.
-     *
-     * If false, the HTML will be treated as HTML.
-     * @default true
-     */
-    stripHTML?: boolean;
-
-    /** Custom column title. */
-
-    /**
-     * The type of cells in this column.
-     * @default "text"
-     */
-    type?:
-      | "text"
-      | "numeric"
-      | "hidden"
-      | "dropdown"
-      | "autocomplete"
-      | "checkbox"
-      | "radio"
-      | "calendar"
-      | "image"
-      | "color"
-      | "html";
-
-    /** Column width. */
-    width?: string | number;
-
-    /**
-     * Enable automatic word wrapping in cells in this column.
-     * @default false
-     */
-    wordWrap?: boolean;
-  }
-
-  interface DropdownCell extends CellDataType {
-    autocomplete?: boolean;
-
-    /**
-     * Allow selection of more than one item.
-     * @default false
-     */
-    multiple?: boolean;
-
-    /** Options available in the dropdown. */
-    source?: DropdownSourceItem[];
-
-    /** Url to fetch options from an external source. */
-    url?: string;
-  }
-
-  interface CalendarCell extends CellDataType {
-    /** Calendar options. */
-    options?: CalendarOptions;
-  }
-
-  interface ColorCell extends CellDataType {
-    /** If undefined, the cell shows the hex code of the color, if "square", it shows a square filled with the color. */
-    render?: "square";
-  }
-
-  type Cell = DropdownCell | CalendarCell | ColorCell | BaseCell;
   interface Row {
     /** Row height. */
     height?: string | number;
@@ -657,8 +588,6 @@ declare namespace jspreadsheet {
 
     /** Column settings. */
     columns?: Column[];
-
-    cellDataTypes?: Cell[];
 
     /**
      * Allow column sorting.
@@ -1301,7 +1230,8 @@ declare namespace jspreadsheet {
 
     onbodyselection?: (
       element: JspreadsheetInstanceElement,
-      rowId: number
+      rowId: number,
+      columnId: number
     ) => void;
 
     onrowselection?: (

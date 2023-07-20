@@ -325,9 +325,9 @@
       console.log("On Column Selection", e, cid);
       myTable.setDataTypeOptionSelected(6, 2);
     },
-    onbodyselection: (e, rid) => {
+    onbodyselection: (e, rid, cid) => {
       myTable.disableToolbarItem([4, 6]);
-      console.log("On Body Selection", e, rid);
+      console.log("On Body Selection", e, rid, cid);
     },
     onrowselection: (e, rid) => {
       // myTable.disableToolbarItem();

@@ -9165,7 +9165,7 @@ if (!formula && typeof require === "function") {
         // Body found
         if (jexcelTable[1] == 2) {
           var rowId = e.target.getAttribute("data-y");
-          jexcel.current.dispatch("onbodyselection", e, rowId);
+          
           if (e.target.classList.contains("jexcel_row")) {
             jexcel.current.dispatch("onrowselection", e, rowId);
             var info = e.target.getBoundingClientRect();
@@ -9255,6 +9255,7 @@ if (!formula && typeof require === "function") {
               if (position) {
                 var columnId = position[0];
                 var rowId = position[1];
+                jexcel.current.dispatch("onbodyselection", e, rowId, columnId);
                 // Close edition
                 if (jexcel.current.edition) {
                   if (
