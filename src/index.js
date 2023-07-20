@@ -1518,12 +1518,12 @@ if (!formula && typeof require === "function") {
       //   }
       // }
       if (
-        obj.options?.cellDataTypes[j][i].type == "checkbox" ||
-        obj.options?.cellDataTypes[j][i].type == "radio"
+        obj.options.cellDataTypes[j][i].type == "checkbox" ||
+        obj.options.cellDataTypes[j][i].type == "radio"
       ) {
         // Create input
         var element = document.createElement("input");
-        element.type = obj.options?.cellDataTypes[j][i].type;
+        element.type = obj.options.cellDataTypes[j][i].type;
         element.name = "c" + i;
         element.checked =
           value == 1 || value == true || value == "true" ? true : false;
@@ -1532,7 +1532,7 @@ if (!formula && typeof require === "function") {
         };
 
         if (
-          obj.options?.cellDataTypes[j][i].readOnly == true ||
+          obj.options.cellDataTypes[j][i].readOnly == true ||
           obj.options.editable == false
         ) {
           element.setAttribute("data-disabled", "disabled");
@@ -1542,13 +1542,13 @@ if (!formula && typeof require === "function") {
         td.appendChild(element);
         // Make sure the values are correct
         obj.options.data[j][i] = element.checked;
-      } else if (obj.options?.cellDataTypes[j][i].type == "calendar") {
+      } else if (obj.options.cellDataTypes[j][i].type == "calendar") {
         // Try formatted date
         var formatted = null;
         if (!validDate(value)) {
           var tmp = jSuites.calendar.extractDateFromString(
             value,
-            obj.options?.cellDataTypes[j][i].options.format
+            obj.options.cellDataTypes[j][i].options.format
           );
           if (tmp) {
             formatted = tmp;
@@ -1557,17 +1557,17 @@ if (!formula && typeof require === "function") {
         // Create calendar cell
         td.textContent = jSuites.calendar.getDateString(
           formatted ? formatted : value,
-          obj.options?.cellDataTypes[j][i].options.format
+          obj.options.cellDataTypes[j][i].options.format
         );
       } else if (
-        obj.options?.cellDataTypes[j][i].type == "dropdown" ||
-        obj.options?.cellDataTypes[j][i].type == "autocomplete"
+        obj.options.cellDataTypes[j][i].type == "dropdown" ||
+        obj.options.cellDataTypes[j][i].type == "autocomplete"
       ) {
         // Create dropdown cell
         td.classList.add("jexcel_dropdown");
         td.textContent = obj.getDropDownValue(i, value);
-      } else if (obj.options?.cellDataTypes[j][i].type == "color") {
-        if (obj.options?.cellDataTypes[j][i].render == "square") {
+      } else if (obj.options.cellDataTypes[j][i].type == "color") {
+        if (obj.options.cellDataTypes[j][i].render == "square") {
           var color = document.createElement("div");
           color.className = "color";
           color.style.backgroundColor = value;
@@ -1576,19 +1576,19 @@ if (!formula && typeof require === "function") {
           td.style.color = value;
           td.textContent = value;
         }
-      } else if (obj.options?.cellDataTypes[j][i].type == "image") {
+      } else if (obj.options.cellDataTypes[j][i].type == "image") {
         if (value && value.substr(0, 10) == "data:image") {
           var img = document.createElement("img");
           img.src = value;
           td.appendChild(img);
         }
       } else {
-        if (obj.options?.cellDataTypes[j][i].type == "html") {
+        if (obj.options.cellDataTypes[j][i].type == "html") {
           td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
         } else {
           if (
             obj.options.stripHTML === false ||
-            obj.options?.cellDataTypes[j][i].stripHTML === false
+            obj.options.cellDataTypes[j][i].stripHTML === false
           ) {
             td.innerHTML = stripScript(obj.parseValue(i, j, value, td));
           } else {
