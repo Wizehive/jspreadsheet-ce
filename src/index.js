@@ -573,6 +573,36 @@ if (!formula && typeof require === "function") {
           } else if (!obj.options.cellDataTypes[rowIndex][columnIndex].type) {
             obj.options.cellDataTypes[rowIndex][columnIndex].type = "text";
           }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].name) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].name = keys && keys[i] ? keys[i] : i;
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].source) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].source = [];
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].options) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].options = [];
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].editor) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].editor = null;
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].allowEmpty) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].allowEmpty = false;
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].title) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].title = obj.options.colHeaders[i]
+              ? obj.options.colHeaders[i]
+              : "";
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].width) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].width = obj.options.colWidths[i]
+              ? obj.options.colWidths[i]
+              : obj.options.defaultColWidth;
+          }
+          if (!obj.options.cellDataTypes[rowIndex][columnIndex].align) {
+            obj.options.cellDataTypes[rowIndex][columnIndex].align = obj.options.colAlignments[i]
+              ? obj.options.colAlignments[i]
+              : "center";
+          }
           if (obj.options.cellDataTypes[rowIndex][columnIndex].type == "calendar") {
             if (!obj.options.cellDataTypes[rowIndex][columnIndex].options.format) {
               obj.options.cellDataTypes[rowIndex][columnIndex].options.format = "DD/MM/YYYY";
