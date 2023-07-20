@@ -1750,10 +1750,10 @@ if (!formula && typeof require === "function") {
           // Add options to the dropdown
           for (var j = 0; j < toolbar[i].v.length; j++) {
             var toolbarDropdownOption = document.createElement("option");
-            if(j == 0){
-              toolbarDropdownOption.selected = true
-              toolbarDropdownOption.hidden = true
-              toolbarDropdownOption.disabled = true
+            if (j == 0) {
+              toolbarDropdownOption.selected = true;
+              toolbarDropdownOption.hidden = true;
+              toolbarDropdownOption.disabled = true;
             }
             toolbarDropdownOption.value = toolbar[i].v[j];
             toolbarDropdownOption.textContent = toolbar[i].v[j];
@@ -1815,10 +1815,14 @@ if (!formula && typeof require === "function") {
     };
 
     obj.enableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach(index => obj.toolbar.children[index].removeAttribute("data-disabled")) 
+      toolbarItemIndexArray.forEach((index) =>
+        obj.toolbar.children[index].removeAttribute("data-disabled")
+      );
     };
     obj.disableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach(index => obj.toolbar.children[index].setAttribute("data-disabled", "disabled")) 
+      toolbarItemIndexArray.forEach((index) =>
+        obj.toolbar.children[index].setAttribute("data-disabled", "disabled")
+      );
     };
     obj.setCellIndication = function (val) {
       obj.fxbar.children[0].value = val;
@@ -1829,9 +1833,14 @@ if (!formula && typeof require === "function") {
 
     obj.setDataTypeOptionSelected = function (toolbarItemIndex, optionIndex) {
       // obj.toolbar.children[toolbarItemIndex]
-      console.log("🚀 ~ file: index.js:1832 ~ obj.toolbar.children[toolbarItemIndex]:", obj.toolbar.children[toolbarItemIndex].children[optionIndex])
-      obj.toolbar.children[toolbarItemIndex].children[optionIndex].selected = true
-    }
+      console.log(
+        "🚀 ~ file: index.js:1832 ~ obj.toolbar.children[toolbarItemIndex]:",
+        obj.toolbar.children[toolbarItemIndex].children[optionIndex]
+      );
+      obj.toolbar.children[toolbarItemIndex].children[
+        optionIndex
+      ].selected = true;
+    };
     /**
      * Merge cells
      * @param cellName
@@ -3394,7 +3403,7 @@ if (!formula && typeof require === "function") {
       if (x1 != null) {
         // Add selected cell
         if (obj.records[y1][x1]) {
-          console.log("In highlight-seslected")
+          console.log("In highlight-seslected");
           obj.records[y1][x1].classList.add("highlight-selected");
         }
 
@@ -3511,13 +3520,15 @@ if (!formula && typeof require === "function") {
           if (obj.rows[j] && obj.rows[j].style.display != "none") {
             // Left border
             obj.records[j][borderLeft].classList.add("highlight-left");
-            console.log("🚀 ~ file: index.js:3514 ~ jexcel ~ obj.records:", obj.records[j])
+            console.log(
+              "🚀 ~ file: index.js:3514 ~ jexcel ~ obj.records:",
+              obj.records[j]
+            );
             // Right border
             obj.records[j][borderRight].classList.add("highlight-right");
             // Add selected from rows
             obj.rows[j].classList.add("selected");
-          console.log("In highlight-seslected 2")
-
+            console.log("In highlight-seslected 2");
           }
         }
 
@@ -8492,7 +8503,7 @@ if (!formula && typeof require === "function") {
     obj.updateFreezePosition = function () {
       scrollLeft = obj.content.scrollLeft;
       var width = 0;
-      if (scrollLeft > 50) {
+      if (scrollLeft > 1) {
         for (var i = 0; i < obj.options.freezeColumns; i++) {
           if (i > 0) {
             // Must check if the previous column is hidden or not to determin whether the width shoule be added or not!

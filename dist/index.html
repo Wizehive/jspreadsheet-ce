@@ -73,7 +73,7 @@
     minDimensions: [10, 100],
     tableOverflow: true,
     tableWidth: "1000px",
-    // freezeColumns: 2,
+    freezeColumns: 2,
     columns: [
       { type: "text", title: "Course Title", width: 300 },
       { type: "text", title: "Time", width: 100, editor: customColumn },
@@ -131,7 +131,7 @@
         tooltip: "data-type",
         disable: true,
         k: "data-type",
-        v: ["Data Types","Text", "Number", "Date"], // Custom data type options
+        v: ["Data Types", "Text", "Number", "Date"], // Custom data type options
       },
       {
         type: "select",
@@ -323,7 +323,7 @@
     oncolumnselection: (e, cid) => {
       myTable.enableToolbarItem([4, 6]);
       console.log("On Column Selection", e, cid);
-      myTable.setDataTypeOptionSelected(6, 2)
+      myTable.setDataTypeOptionSelected(6, 2);
     },
     onbodyselection: (e, rid) => {
       myTable.disableToolbarItem([4, 6]);
@@ -332,8 +332,7 @@
     onrowselection: (e, rid) => {
       // myTable.disableToolbarItem();
       console.log("On Row Selection", e, rid);
-    }
-
+    },
   });
   const getStyleForCell = function (index) {
     const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];
@@ -342,7 +341,7 @@
 
   const getReadOnlyCellss = () => {
     console.log("Read Only Cells");
-    myTable.updateSelectionFromCoords(4,0, 4, 4)
+    myTable.updateSelectionFromCoords(4, 0, 4, 4);
     // console.log(myTable.getReadOnlyCells());
   };
 </script>
