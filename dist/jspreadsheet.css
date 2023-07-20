@@ -720,6 +720,7 @@ span.icon-text {
     background-color: transparent;
     padding-right: 10px;
     outline: none;
+    margin-top: 5px;
 }
 
 .jexcel .dragging-left {
