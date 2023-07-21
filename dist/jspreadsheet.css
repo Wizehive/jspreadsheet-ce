@@ -315,11 +315,11 @@ td.highlight.highlight-left.highlight-right {
 }
 
 .jexcel .highlight-selected {
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color:#E5F1F8
 }
 
 .jexcel .selection {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #E5F1F8;
 }
 
 .jexcel .selection-left {
@@ -606,6 +606,10 @@ td.highlight.highlight-left.highlight-right {
     left: 0;
     max-width: 100vw;
 }
+.jcolor-content{
+    right: -30px;
+    top: 10px;
+}
 /* css for removing spectrum and slider from jcolor */
 .jcolor .jcolor-content .jtabs .jtabs-headers-container{
     display: none !important;
@@ -621,7 +625,7 @@ td.highlight.highlight-left.highlight-right {
     margin: 0px 2px -1px 1px;
     position: sticky;
     top: 46px;
-    z-index: 4;
+    z-index: 3;
     left: 0;
     max-width: 100vw;
 }
@@ -691,7 +695,7 @@ tbody tr:first-child td.jexcel-row-freeze{
     border-radius: 3px;
 }
 .jexcel_toolbar label {
-        margin-right: 10px;
+        margin-right: 2px;
         cursor: pointer;
         padding-right: 10px;
         margin-bottom: 2px;
