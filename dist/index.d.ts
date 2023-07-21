@@ -234,6 +234,94 @@ declare namespace jspreadsheet {
 
   type Column = DropdownColumn | CalendarColumn | ColorColumn | BaseColumn;
 
+	//Added New CellData Type
+
+	interface CellDataType {
+    /** Cell alignment. */
+    align?: HorizontalAlign;
+
+    decimal?: string;
+
+    editor?: CustomEditor;
+
+    /** Cell mask. */
+    mask?: string;
+
+    /** Name used to refer to this column if the data is arranged as an array of objects. */
+    name?: string;
+
+    /**
+     * Prevent user from changing cell values.
+     * @default false
+     */
+    readOnly?: boolean;
+
+    /**
+     * If true, HTML inside column headings or cell values will be treated as regular text.
+     *
+     * If false, the HTML will be treated as HTML.
+     * @default true
+     */
+    stripHTML?: boolean;
+
+    /** Custom column title. */
+    title?: string;
+
+    /**
+     * The type of cells in this column.
+     * @default "text"
+     */
+    type?:
+      | "text"
+      | "numeric"
+      | "hidden"
+      | "dropdown"
+      | "autocomplete"
+      | "checkbox"
+      | "radio"
+      | "calendar"
+      | "image"
+      | "color"
+      | "html";
+
+    /** Column width. */
+    width?: string | number;
+
+    /**
+     * Enable automatic word wrapping in cells in this column.
+     * @default false
+     */
+    wordWrap?: boolean;
+  }
+
+  interface DropdownCell extends CellDataType {
+    autocomplete?: boolean;
+
+    /**
+     * Allow selection of more than one item.
+     * @default false
+     */
+    multiple?: boolean;
+
+    /** Options available in the dropdown. */
+    source?: DropdownSourceItem[];
+
+    /** Url to fetch options from an external source. */
+    url?: string;
+  }
+
+  interface CalendarCell extends CellDataType {
+    /** Calendar options. */
+    options?: CalendarOptions;
+  }
+
+  interface ColorCell extends CellDataType {
+    /** If undefined, the cell shows the hex code of the color, if "square", it shows a square filled with the color. */
+    render?: "square";
+  }
+
+  type Cell = DropdownCell | CalendarCell | ColorCell | CellDataType;
+
   interface Row {
     /** Row height. */
     height?: string | number;
@@ -248,6 +336,10 @@ declare namespace jspreadsheet {
 
     /** Tooltip shown when hovering over this option. */
     tooltip?: string;
+
+		showtext?: string;
+
+		disable?: boolean;
   }
 
   interface ToolbarIconItem extends ToolbarItemBase {
@@ -282,9 +374,17 @@ declare namespace jspreadsheet {
 
     /** Defines the icon (from material icons). */
     content: string;
+
+    v?:string
   }
 
-  type ToolbarItem = ToolbarIconItem | ToolbarSelectItem | ToolbarColorItem;
+	interface ToolbarDivisorItem extends ToolbarItemBase {
+    type: "divisor";
+    v?: string
+
+  }
+
+  type ToolbarItem = ToolbarIconItem | ToolbarSelectItem | ToolbarColorItem | ToolbarDivisorItem;
 
   interface NestedHeaderCell {
     id?: string,
@@ -588,6 +688,8 @@ declare namespace jspreadsheet {
 
     /** Column settings. */
     columns?: Column[];
+
+		cellDataTypes: Cell[][]
 
     /**
      * Allow column sorting.
@@ -1794,7 +1896,7 @@ declare namespace jspreadsheet {
      */
     getData: (highlighted?: boolean, dataOnly?: boolean) => CellValue[][];
 
-    getReadOnlyCells: () => number[[number,number]]
+    getReadOnlyCells: () => [number,number]
 
     /**
      * Get the values of options from a dropdown column based on the column index and the keys of those options.
@@ -1976,7 +2078,7 @@ declare namespace jspreadsheet {
     /**
     * Show Headers
     */
-    showColumnHeaders: () => void;    
+    showColumnHeaders: () => void;
 
     /**
      * List of highlighted cells.
@@ -2443,7 +2545,7 @@ declare namespace jspreadsheet {
     // disable the toolbar option item on header
     disableToolbarItem :( toolBarItemIndexes:number[]) => void;
 
-    // set the selected cell value 
+    // set the selected cell value
     setCellValue:(value:string)=> void;
 
     setDataTypeOptionSelected:(toolbarItemIndex: number, optionIndex: number) => void
