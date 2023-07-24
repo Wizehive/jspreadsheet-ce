@@ -2602,7 +2602,8 @@ declare namespace jspreadsheet {
      * @param cell - Cell name or coordinates.
      * @param state - If true, the cell becomes read-only, otherwise it loses this status.
      */
-    setReadOnly: (cell: string | [number, number], state?: boolean) => void;
+   
+    setReadOnly: (cell: string | [number, number, number, number] | [number, number], state?: boolean) => void;
 
     /**
      * Set a row data by index.
