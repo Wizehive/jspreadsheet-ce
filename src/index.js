@@ -642,16 +642,12 @@ if (!formula && typeof require === "function") {
       // Create table container
       obj.content = document.createElement("div");
       obj.content.classList.add("jexcel_content");
-      obj.content.addEventListener("scroll", obj.scrollControls, {
-        passive: true,
-      });
-
-      //   obj.content.onscroll = function (e) {
-      //     obj.scrollControls(e);
-      //   };
-      //   obj.content.onwheel = function (e) {
-      //     obj.wheelControls(e);
-      //   };
+      obj.content.onscroll = function (e) {
+        obj.scrollControls(e);
+      };
+      obj.content.onwheel = function (e) {
+        obj.wheelControls(e);
+      };
 
       // Create toolbar object
       obj.toolbar = document.createElement("div");
@@ -8696,11 +8692,8 @@ if (!formula && typeof require === "function") {
       return obj.readOnlyCells;
     };
 
-    // el.addEventListener("DOMMouseScroll", obj.wheelControls);
-    // el.addEventListener("mousewheel", obj.wheelControls);
-
-    el.addEventListener("DOMMouseScroll", obj.wheelControls, { passive: true });
-    el.addEventListener("mousewheel", obj.wheelControls, { passive: true });
+    el.addEventListener("DOMMouseScroll", obj.wheelControls);
+    el.addEventListener("mousewheel", obj.wheelControls);
 
     el.jexcel = obj;
     el.jspreadsheet = obj;
@@ -8776,39 +8769,18 @@ if (!formula && typeof require === "function") {
 
   jexcel.build = function (root) {
     destroyEvents(root);
-
-    root.addEventListener("mouseup", jexcel.mouseUpControls, { passive: true });
-    root.addEventListener("mousedown", jexcel.mouseDownControls, {
-      passive: true,
-    });
-    root.addEventListener("mousemove", jexcel.mouseMoveControls, {
-      passive: true,
-    });
-    root.addEventListener("mouseover", jexcel.mouseOverControls, {
-      passive: true,
-    });
-    root.addEventListener("dblclick", jexcel.doubleClickControls, {
-      passive: true,
-    });
-    root.addEventListener("paste", jexcel.pasteControls, { passive: true });
-    root.addEventListener("contextmenu", jexcel.contextMenuControls, {
-      passive: true,
-    });
-    root.addEventListener("touchstart", jexcel.touchStartControls, {
-      passive: true,
-    });
-    root.addEventListener("touchend", jexcel.touchEndControls, {
-      passive: true,
-    });
-    root.addEventListener("touchcancel", jexcel.touchEndControls, {
-      passive: true,
-    });
-    root.addEventListener("touchmove", jexcel.touchEndControls, {
-      passive: true,
-    });
-    document.addEventListener("keydown", jexcel.keyDownControls, {
-      passive: true,
-    });
+    root.addEventListener("mouseup", jexcel.mouseUpControls);
+    root.addEventListener("mousedown", jexcel.mouseDownControls);
+    root.addEventListener("mousemove", jexcel.mouseMoveControls);
+    root.addEventListener("mouseover", jexcel.mouseOverControls);
+    root.addEventListener("dblclick", jexcel.doubleClickControls);
+    root.addEventListener("paste", jexcel.pasteControls);
+    root.addEventListener("contextmenu", jexcel.contextMenuControls);
+    root.addEventListener("touchstart", jexcel.touchStartControls);
+    root.addEventListener("touchend", jexcel.touchEndControls);
+    root.addEventListener("touchcancel", jexcel.touchEndControls);
+    root.addEventListener("touchmove", jexcel.touchEndControls);
+    document.addEventListener("keydown", jexcel.keyDownControls);
   };
 
   /**
