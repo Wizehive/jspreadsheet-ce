@@ -363,7 +363,7 @@ declare namespace jspreadsheet {
     v: string[];
 
     /** Select tag onchange event. */
-    onchange?: (event: Event) => void;
+    onchange?:(event: Event, obj: any)  => void;
 
     /** Initial value of the selectbox. */
     selectedValue?: string;
