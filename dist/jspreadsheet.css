@@ -617,6 +617,9 @@ td.highlight.highlight-left.highlight-right {
 .jtabs.jtabs-modern .jtabs-headers > div:not(.jtabs-border),.jcolor-controls div{
     font-family:'lato', Courier, monospace
 }
+.jexcel_toolbar .jcolor-controls {
+    display: none;
+}
 .jexcel_fxbar {
     display: flex;
     background: #fff;
