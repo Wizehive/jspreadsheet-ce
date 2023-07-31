@@ -1890,7 +1890,7 @@ if (!formula && typeof require === "function") {
               };
             })(i);
             // toolbarItem.onchange = toolbar[i].onchange;
-            raiseInitialOnChange = true;
+            raiseInitialOnChange = false;
           } else {
             toolbarItem.onchange = function () {
               var k = this.getAttribute("data-k");
