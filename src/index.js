@@ -1587,6 +1587,10 @@ if (!formula && typeof require === "function") {
         // Try formatted date
         var formatted = null;
         if (!validDate(value)) {
+              if(value.toString().charAt(0)== "=" || value.toString() == "0"){
+                value = ""
+                obj.options.data[j][i] = value
+              }
           var tmp = jSuites.calendar.extractDateFromString(
             value,
             obj.options.cellDataTypes[j][i].options.format
@@ -2509,7 +2513,6 @@ if (!formula && typeof require === "function") {
             // Create editor
             var editor = createEditor("input");
             editor.value = value;
-
             if (
               obj.options.tableOverflow == true ||
               obj.options.fullscreen == true
@@ -3123,6 +3126,9 @@ if (!formula && typeof require === "function") {
             // Try formatted date
             var formatted = null;
             if (!validDate(value)) {
+              if(value.toString().charAt(0)== "=" || value.toString() == "0"){
+                value = ''
+              }
               var tmp = jSuites.calendar.extractDateFromString(
                 value,
                 obj.options.cellDataTypes[y][x].options.format
