@@ -15,8 +15,8 @@ if (!formula && typeof require === "function") {
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
     : typeof define === "function" && define.amd
-    ? define(factory)
-    : (global.jspreadsheet = global.jexcel = factory());
+      ? define(factory)
+      : (global.jspreadsheet = global.jexcel = factory());
 })(this, function () {
   "use strict";
 
@@ -516,7 +516,7 @@ if (!formula && typeof require === "function") {
           obj.options.columns[i].editor = null;
         }
         if (!obj.options.columns[i].allowEmpty) {
-          obj.options.columns[i].allowEmpty = false;
+          obj.options.columns[i].allowEmpty = true;
         }
         if (!obj.options.columns[i].title) {
           obj.options.columns[i].title = obj.options.colHeaders[i]
@@ -558,6 +558,7 @@ if (!formula && typeof require === "function") {
           // Default format for date columns
           if (!obj.options.columns[i].options.format) {
             obj.options.columns[i].options.format = "DD/MM/YYYY";
+            obj.options.columns[i].options.today = true;
           }
         }
       }
@@ -586,7 +587,7 @@ if (!formula && typeof require === "function") {
             obj.options.cellDataTypes[rowIndex][columnIndex].editor = null;
           }
           if (!obj.options.cellDataTypes[rowIndex][columnIndex].allowEmpty) {
-            obj.options.cellDataTypes[rowIndex][columnIndex].allowEmpty = false;
+            obj.options.cellDataTypes[rowIndex][columnIndex].allowEmpty = true;
           }
           if (!obj.options.cellDataTypes[rowIndex][columnIndex].title) {
             obj.options.cellDataTypes[rowIndex][columnIndex].title = obj.options
@@ -613,7 +614,9 @@ if (!formula && typeof require === "function") {
               !obj.options.cellDataTypes[rowIndex][columnIndex].options.format
             ) {
               obj.options.cellDataTypes[rowIndex][columnIndex].options.format =
-                "DD/MM/YYYY";
+                "MM/DD/YYYY";
+              obj.options.cellDataTypes[rowIndex][columnIndex].options.today = true;
+              obj.options.cellDataTypes[rowIndex][columnIndex].options.controls = false
             }
           }
         }
@@ -737,7 +740,6 @@ if (!formula && typeof require === "function") {
       obj.headerContainer.appendChild(tempCol);
 
       for (var i = 0; i < obj.options.columns.length; i++) {
-        console.log();
         // Create header
         obj.createCellHeader(i);
         // Append cell to the container
@@ -826,7 +828,7 @@ if (!formula && typeof require === "function") {
           img.src = "//bossanova.uk/jspreadsheet/logo.png";
           ads.appendChild(img);
         }
-      } catch (exception) {}
+      } catch (exception) { }
       var span = document.createElement("span");
       span.innerHTML = "Jspreadsheet CE";
       ads.appendChild(span);
@@ -2475,7 +2477,7 @@ if (!formula && typeof require === "function") {
               multiple: obj.options.cellDataTypes[y][x].multiple ? true : false,
               autocomplete:
                 obj.options.cellDataTypes[y][x].autocomplete ||
-                obj.options.cellDataTypes[y][x].type == "autocomplete"
+                  obj.options.cellDataTypes[y][x].type == "autocomplete"
                   ? true
                   : false,
               opened: true,
@@ -2484,7 +2486,7 @@ if (!formula && typeof require === "function") {
               height: editor.style.minHeight,
               position:
                 obj.options.tableOverflow == true ||
-                obj.options.fullscreen == true
+                  obj.options.fullscreen == true
                   ? true
                   : false,
               onclose: function () {
@@ -3014,7 +3016,7 @@ if (!formula && typeof require === "function") {
       var b = new Option();
       b.innerHTML = a;
       var c = null;
-      for (a = b.getElementsByTagName("script"); (c = a[0]); )
+      for (a = b.getElementsByTagName("script"); (c = a[0]);)
         c.parentNode.removeChild(c);
       return b.innerHTML;
     };
@@ -4548,22 +4550,22 @@ if (!formula && typeof require === "function") {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                  ? -1
-                  : valueA > valueB
-                  ? 1
-                  : valueA < valueB
-                  ? -1
-                  : 0;
+                    ? -1
+                    : valueA > valueB
+                      ? 1
+                      : valueA < valueB
+                        ? -1
+                        : 0;
               } else {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                  ? -1
-                  : valueA > valueB
-                  ? -1
-                  : valueA < valueB
-                  ? 1
-                  : 0;
+                    ? -1
+                    : valueA > valueB
+                      ? -1
+                      : valueA < valueB
+                        ? 1
+                        : 0;
               }
             };
           };
@@ -6307,7 +6309,7 @@ if (!formula && typeof require === "function") {
                 if (
                   typeof obj.options.data[position[1]] != "undefined" &&
                   typeof obj.options.data[position[1]][position[0]] !=
-                    "undefined"
+                  "undefined"
                 ) {
                   var value = obj.options.data[position[1]][position[0]];
                 } else {
@@ -6406,12 +6408,12 @@ if (!formula && typeof require === "function") {
     /**
      * Get row number
      */
-    obj.row = function (cell) {};
+    obj.row = function (cell) { };
 
     /**
      * Get col number
      */
-    obj.col = function (cell) {};
+    obj.col = function (cell) { };
 
     obj.up = function (shiftKey, ctrlKey) {
       if (shiftKey) {
@@ -8805,9 +8807,9 @@ if (!formula && typeof require === "function") {
             jexcel.current.closeEditor(jexcel.current.edition[0], true);
           } else if (
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-              "dropdown" ||
+            "dropdown" ||
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-              "autocomplete"
+            "autocomplete"
           ) {
             // Do nothing
           } else {
@@ -8991,7 +8993,7 @@ if (!formula && typeof require === "function") {
                     e.preventDefault();
                     if (
                       jexcel.current.options.columns[columnId].type ==
-                        "checkbox" ||
+                      "checkbox" ||
                       jexcel.current.options.columns[columnId].type == "radio"
                     ) {
                       jexcel.current.setCheckRadioValue();
@@ -9015,7 +9017,7 @@ if (!formula && typeof require === "function") {
                     (e.keyCode >= 187 && e.keyCode <= 190) ||
                     ((String.fromCharCode(e.keyCode) == e.key ||
                       String.fromCharCode(e.keyCode).toLowerCase() ==
-                        e.key.toLowerCase()) &&
+                      e.key.toLowerCase()) &&
                       jexcel.validLetter(String.fromCharCode(e.keyCode)))
                   ) {
                     // Start edition
@@ -10654,7 +10656,7 @@ if (!formula && typeof require === "function") {
     /**
      * Extract json configuration from a TABLE DOM tag
      */
-    component.createFromTable = function () {};
+    component.createFromTable = function () { };
 
     /**
      * Helper injectArray
