@@ -616,7 +616,6 @@ if (!formula && typeof require === "function") {
               obj.options.cellDataTypes[rowIndex][columnIndex].options.format =
                 "MM/DD/YYYY";
               obj.options.cellDataTypes[rowIndex][columnIndex].options.today = true;
-              obj.options.cellDataTypes[rowIndex][columnIndex].options.controls = false
             }
           }
         }

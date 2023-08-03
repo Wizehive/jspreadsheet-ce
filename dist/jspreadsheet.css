@@ -845,3 +845,8 @@ span.icon-text {
     pointer-events: none;
     opacity: 0.4;
 }
+
+.jcalendar-update,.jcalendar-table + .jcalendar-controls,
+.jcalendar-table ~ .jcalendar-controls{
+    display: none;
+  }
