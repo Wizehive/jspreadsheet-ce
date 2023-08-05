@@ -6084,6 +6084,10 @@ if (!formula && typeof require === "function") {
       obj.table.classList.remove("jexcel_hidden_header");
     };
 
+    obj.showNestedColumnHeaders = function () {
+      obj.table.classList.remove("jexcel_hidden_nested_header");
+    };
+
     /**
      * Update all related cells in the chain
      */
