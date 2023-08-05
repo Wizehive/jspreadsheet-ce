@@ -850,8 +850,9 @@ declare namespace jspreadsheet {
     minSpareRows?: number;
 
     /** Define the nested headers. */
-    // nestedHeaders?: NestedHeaderCell[] | NestedHeaderCell[][];
-    nestedHeaders?: boolean;
+    nestedHeaders?: NestedHeaderCell[] | NestedHeaderCell[][];
+
+    allowNestedHeaders?: boolean
 
     /**
      * Occurs after all changes are applied in the tables.
@@ -2076,10 +2077,19 @@ declare namespace jspreadsheet {
     */
     hideColumnHeaders: () => void;
 
-    /**
+     /**
+    * Show Nested Column Headers
+    */
+     hideColumnHeaders: () => void;
+
+         /**
     * Show Headers
     */
     showColumnHeaders: () => void;
+    /**
+    * Show Headers
+    */
+    hideNestedColumnHeaders: () => void;
 
     /**
      * List of highlighted cells.

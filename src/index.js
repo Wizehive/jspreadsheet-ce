@@ -122,6 +122,7 @@ if (!formula && typeof require === "function") {
       colWidths: [],
       colAlignments: [],
       nestedHeaders: null,
+      allowNestedHeaders: false,
       // Column width that is used by default
       defaultColWidth: 50,
       defaultColAlign: "center",
@@ -717,20 +718,21 @@ if (!formula && typeof require === "function") {
       obj.colgroupContainer.appendChild(tempCol);
 
       // Nested
-      if (obj.options.nestedHeaders) {
+      if (obj.options.allowNestedHeaders) {
         // Flexible way to handle nestedheaders
-        if (obj.options.nestedHeaders[0] && obj.options.nestedHeaders[0][0]) {
-          console.log("in if nested Header");
-          for (var j = 0; j < obj.options.nestedHeaders.length; j++) {
-            obj.thead.appendChild(
-              obj.createNestedHeader(obj.options.nestedHeaders[j])
-            );
-          }
-        } else {
+        // if (obj.options.nestedHeaders[0] && obj.options.nestedHeaders[0][0]) {
+        //   console.log("in if nested Header");
+        //   for (var j = 0; j < obj.options.nestedHeaders.length; j++) {
+        //     obj.thead.appendChild(
+        //       obj.createNestedHeader(obj.options.nestedHeaders[j])
+        //     );
+        //   }
+        // } else {
+          let nestedInformationObject = obj.options.columns.map(col => col)
           obj.thead.appendChild(
-            obj.createNestedHeader(obj.options.columns)
+            obj.createNestedHeader(nestedInformationObject)
           );
-        }
+        // }
       }
 
       // Row
@@ -1741,7 +1743,6 @@ if (!formula && typeof require === "function") {
      * Create a nested header object
      */
     obj.createNestedHeader = function (nestedInformation) {
-      console.log({nestedInformation});
       var tr = document.createElement("tr");
       tr.classList.add("jexcel_nested");
       var td = document.createElement("td");

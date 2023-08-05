@@ -29,6 +29,9 @@
     ["", "14:00", "PHP", "14:00"],
     ["Javascript", "16:30", "PHP", "14:00"],
     ["Javascript", "16:30", "PHP", "14:00"],
+    ["Javascript", "16:30", "PHP", "14:00"],
+    ["Javascript", "16:30", "PHP", "14:00"],
+    ["Javascript", "16:30", "PHP", "14:00"],
   ];
   var styleObj = {};
 
@@ -71,19 +74,18 @@
 
   myTable = jspreadsheet(document.getElementById("spreadsheet"), {
     data: data2,
-    minDimensions: [5, 5],
+    minDimensions: [50, 6],
     tableOverflow: true,
     tableWidth: "1000px",
-    columns: [
-      { type: "text", width: 300 },
-      { type: "text",width: 300,},
-      { type: "text", width: 300 },
-      // { type: "text", width: 300 },
-      // { type: "text", width: 300 },
-      // { type: "text", width: 300}
-    ],
+    // columns: [
+    //   { type: "text", width: 300 },
+    //   { type: "text",width: 300,},
+    //   { type: "text", width: 300 },
+    //   { type: "text", width: 300 },
+    //   { type: "text", width: 300 }
+    // ],
     cellDataTypes: [[{type: "calendar"}]],
-    nestedHeaders: false,
+    allowNestedHeaders: true,
     
     toolbar: [
       {
@@ -282,6 +284,7 @@
     disableToolbar: false,
     disableContextMenu: true,
     columnSorting: false,
+    freezeColumns:2,
     oneditionstart: (e, td) => {
       console.log("Edition Start", td);
       if (td.innerHTML) {

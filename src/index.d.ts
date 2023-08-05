@@ -852,6 +852,8 @@ declare namespace jspreadsheet {
     /** Define the nested headers. */
     nestedHeaders?: NestedHeaderCell[] | NestedHeaderCell[][];
 
+    allowNestedHeaders?: boolean
+
     /**
      * Occurs after all changes are applied in the tables.
      * @param element - Root HTML element of this jss instance.
@@ -2080,6 +2082,10 @@ declare namespace jspreadsheet {
     */
      hideColumnHeaders: () => void;
 
+         /**
+    * Show Headers
+    */
+    showColumnHeaders: () => void;
     /**
     * Show Headers
     */
