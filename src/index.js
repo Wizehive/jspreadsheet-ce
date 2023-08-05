@@ -9824,15 +9824,20 @@ if (!formula && typeof require === "function") {
 
         // Double click over header
         if (
-          jexcelTable[1] == 1 &&
-          jexcel.current.options.columnSorting == true
+          jexcelTable[1] == 1
         ) {
           // Check valid column header coords
           var columnId = e.target.getAttribute("data-x");
           if (columnId) {
-            jexcel.current.orderBy(columnId);
+            if (jexcel.current.options.columnSorting == true) {
+              jexcel.current.orderBy(columnId);
+            }
+            else {
+              jexcel.current.setHeader(columnId);
+            }
           }
         }
+
 
         // Double click over body
         if (jexcelTable[1] == 2 && jexcel.current.options.editable == true) {
