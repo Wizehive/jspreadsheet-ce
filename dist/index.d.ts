@@ -850,7 +850,8 @@ declare namespace jspreadsheet {
     minSpareRows?: number;
 
     /** Define the nested headers. */
-    nestedHeaders?: NestedHeaderCell[] | NestedHeaderCell[][];
+    // nestedHeaders?: NestedHeaderCell[] | NestedHeaderCell[][];
+    nestedHeaders?: boolean;
 
     /**
      * Occurs after all changes are applied in the tables.

@@ -717,9 +717,10 @@ if (!formula && typeof require === "function") {
       obj.colgroupContainer.appendChild(tempCol);
 
       // Nested
-      if (obj.options.nestedHeaders && obj.options.nestedHeaders.length > 0) {
+      if (obj.options.nestedHeaders) {
         // Flexible way to handle nestedheaders
         if (obj.options.nestedHeaders[0] && obj.options.nestedHeaders[0][0]) {
+          console.log("in if nested Header");
           for (var j = 0; j < obj.options.nestedHeaders.length; j++) {
             obj.thead.appendChild(
               obj.createNestedHeader(obj.options.nestedHeaders[j])
@@ -727,13 +728,14 @@ if (!formula && typeof require === "function") {
           }
         } else {
           obj.thead.appendChild(
-            obj.createNestedHeader(obj.options.nestedHeaders)
+            obj.createNestedHeader(obj.options.columns)
           );
         }
       }
 
       // Row
       obj.headerContainer = document.createElement("tr");
+      obj.headerContainer.classList.add("jexcel_main_header");
       var tempCol = document.createElement("td");
       tempCol.classList.add("jexcel_selectall");
       obj.headerContainer.appendChild(tempCol);
@@ -1692,11 +1694,11 @@ if (!formula && typeof require === "function") {
         obj.headers[colNumber].textContent = obj.options.columns[colNumber]
           .title
           ? obj.options.columns[colNumber].title
-          : jexcel.getColumnName(colNumber);
+          : `Header ${jexcel.getColumnName(colNumber)}`;
       } else {
         obj.headers[colNumber].innerHTML = obj.options.columns[colNumber].title
           ? obj.options.columns[colNumber].title
-          : jexcel.getColumnName(colNumber);
+          : `Header ${jexcel.getColumnName(colNumber)}`;
       }
       obj.headers[colNumber].setAttribute("data-x", colNumber);
       obj.headers[colNumber].style.textAlign = colAlign;
@@ -1739,6 +1741,7 @@ if (!formula && typeof require === "function") {
      * Create a nested header object
      */
     obj.createNestedHeader = function (nestedInformation) {
+      console.log({nestedInformation});
       var tr = document.createElement("tr");
       tr.classList.add("jexcel_nested");
       var td = document.createElement("td");
@@ -1749,6 +1752,7 @@ if (!formula && typeof require === "function") {
       var headerIndex = 0;
       for (var i = 0; i < nestedInformation.length; i++) {
         // Default values
+        nestedInformation[i] = {}
         if (!nestedInformation[i].colspan) {
           nestedInformation[i].colspan = 1;
         }
@@ -1785,7 +1789,7 @@ if (!formula && typeof require === "function") {
         td.setAttribute("colspan", nestedInformation[i].colspan);
         td.setAttribute("align", nestedInformation[i].align);
         td.setAttribute("id", nestedInformation[i].id);
-        td.textContent = nestedInformation[i].title;
+        td.textContent = nestedInformation[i].title ? nestedInformation[i].title : jexcel.getColumnName(i) ;
         tr.appendChild(td);
       }
 
@@ -6069,7 +6073,10 @@ if (!formula && typeof require === "function") {
     };
 
     obj.hideColumnHeaders = function () {
-      obj.table.classList.add("jexcel_hidden_header");
+      obj.table.classList.add("jexcel_hidden_column_header");
+    };
+    obj.hideNestedColumnHeaders = function () {
+      obj.table.classList.add("jexcel_hidden_nested_header");
     };
 
     obj.showColumnHeaders = function () {

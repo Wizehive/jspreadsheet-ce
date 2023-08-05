@@ -2075,10 +2075,15 @@ declare namespace jspreadsheet {
     */
     hideColumnHeaders: () => void;
 
+     /**
+    * Show Nested Column Headers
+    */
+     hideColumnHeaders: () => void;
+
     /**
     * Show Headers
     */
-    showColumnHeaders: () => void;
+    hideNestedColumnHeaders: () => void;
 
     /**
      * List of highlighted cells.

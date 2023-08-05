@@ -21,7 +21,8 @@
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
 <div id="spreadsheet" style="margin-left: 20%"></div>
-<button onclick="getReadOnlyCellss()">Click Me</button>
+<button onclick="hideNestedColumnHeaderscheck()">hide Nested ColumnHeaders</button>
+<button onclick="hideColumnHeaderscheck()">Hide ColumnHeaders</button>
 
 <script>
   var data2 = [
@@ -73,16 +74,17 @@
     minDimensions: [5, 5],
     tableOverflow: true,
     tableWidth: "1000px",
-    freezeColumns: 2,
-    // columns: [
-    //   { type: "text", title: "Course Title", width: 300 },
-    //   { type: "text", title: "Time", width: 100, editor: customColumn },
-    //   { type: "text", title: "Course Title", width: 300 },
-    //   { type: "text", title: "Course Title", width: 300 },
-    //   { type: "text", title: "Course Title", width: 300 },
-    //   { type: "text", title: "Date", width: 300, type: "calendar" }
-    // ],
+    columns: [
+      { type: "text", width: 300 },
+      { type: "text",width: 300,},
+      { type: "text", width: 300 },
+      // { type: "text", width: 300 },
+      // { type: "text", width: 300 },
+      // { type: "text", width: 300}
+    ],
     cellDataTypes: [[{type: "calendar"}]],
+    nestedHeaders: false,
+    
     toolbar: [
       {
         type: "i",
@@ -337,6 +339,14 @@
       console.log("On Row Selection", e, rid);
     },
   });
+  const hideNestedColumnHeaderscheck  = () => {
+    myTable.hideNestedColumnHeaders()
+  };
+  const hideColumnHeaderscheck  = () => {
+    console.log("hello")
+    myTable.hideColumnHeaders()
+  };
+
   const getStyleForCell = function (index) {
     const colors = ["#0C866D", "#F0AD4E", "#9747FF", "#4DA6C8", "#FF8B94"];
     return `border: 2px dashed ${colors[index % colors.length]};`;

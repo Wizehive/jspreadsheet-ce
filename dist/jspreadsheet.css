@@ -769,10 +769,12 @@ span.icon-text {
     display: none;
 }
 
-.jexcel_hidden_header>thead {
+.jexcel_hidden_column_header>thead>tr.jexcel_main_header {
     display: none;
 }
-
+.jexcel_hidden_nested_header>thead>tr.jexcel_nested {
+    display: none;
+}
 
 .jexcel .jrating {
     display: inline-flex;
