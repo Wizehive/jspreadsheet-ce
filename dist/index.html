@@ -74,16 +74,18 @@
 
   myTable = jspreadsheet(document.getElementById("spreadsheet"), {
     data: data2,
-    minDimensions: [50, 6],
+    minDimensions: [50, 5],
     tableOverflow: true,
     tableWidth: "1000px",
-    // columns: [
-    //   { type: "text", width: 300 },
-    //   { type: "text",width: 300,},
-    //   { type: "text", width: 300 },
-    //   { type: "text", width: 300 },
-    //   { type: "text", width: 300 }
-    // ],
+    freezeColumns:5,
+    columns: [
+      { type: "text", width: 300 },
+      { type: "text",width: 300,},
+      { type: "text", width: 300 },
+      // { type: "text", width: 300 },
+      // { type: "text", width: 300 },
+      // { type: "text", width: 300}
+    ],
     cellDataTypes: [[{type: "calendar"}]],
     allowNestedHeaders: true,
     

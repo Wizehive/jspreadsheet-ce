@@ -635,7 +635,8 @@ td.highlight.highlight-left.highlight-right {
 .jexcel.jexcel_overflow tbody tr{
     height: 26px;
 }
-thead>tr>td.jexcel_selectall{
+thead>tr>td.jexcel_selectall,
+thead>tr.jexcel_nested>td:first-child{
     position: sticky;
     left: 0;
     z-index: 3;

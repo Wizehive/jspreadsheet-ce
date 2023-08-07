@@ -1745,6 +1745,7 @@ if (!formula && typeof require === "function") {
     obj.createNestedHeader = function (nestedInformation) {
       var tr = document.createElement("tr");
       tr.classList.add("jexcel_nested");
+      
       var td = document.createElement("td");
       tr.appendChild(td);
       // Element
@@ -6081,7 +6082,7 @@ if (!formula && typeof require === "function") {
     };
 
     obj.showColumnHeaders = function () {
-      obj.table.classList.remove("jexcel_hidden_header");
+      obj.table.classList.remove("jexcel_hidden_column_header");
     };
 
     obj.showNestedColumnHeaders = function () {
@@ -8675,6 +8676,7 @@ if (!formula && typeof require === "function") {
               width += parseInt(obj.options.columns[i - 1].width);
             }
           }
+          console.log("obj.headers[i]",obj.headers[i]);
           obj.headers[i].classList.add("jexcel_freezed");
           obj.headers[i].style.left = width + 50 + "px";
           for (var j = 0; j < obj.rows.length; j++) {
