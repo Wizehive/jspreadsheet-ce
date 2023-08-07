@@ -1797,8 +1797,8 @@ if (!formula && typeof require === "function") {
         td.setAttribute("id", nestedInformation[i].id);
         td.textContent = nestedInformation[i].title ? nestedInformation[i].title : jexcel.getColumnName(i) ;
         tr.appendChild(td);
+        obj.nestedHeaders.push(td)
       }
-      obj.nestedHeaders = tr
       console.log("check", obj.nestedHeaders)
       return tr;
     };
@@ -8681,10 +8681,10 @@ if (!formula && typeof require === "function") {
               width += parseInt(obj.options.columns[i - 1].width);
             }
           }
-          console.log("obj.headers[i]",obj.headers[i]);
-          console.log("obj.nestedHeaders",obj.nestedHeaders)
           obj.headers[i].classList.add("jexcel_freezed");
           obj.headers[i].style.left = width + 50 + "px";
+          obj.nestedHeaders[i].classList.add("jexcel_freezed");
+          obj.nestedHeaders[i].style.left = width + 50 + "px";
           for (var j = 0; j < obj.rows.length; j++) {
             if (obj.rows[j] && obj.records[j][i]) {
               var shifted =
@@ -8702,6 +8702,8 @@ if (!formula && typeof require === "function") {
         for (var i = 0; i < obj.options.freezeColumns; i++) {
           obj.headers[i].classList.remove("jexcel_freezed");
           obj.headers[i].style.left = "";
+          obj.nestedHeaders[i].classList.remove("jexcel_freezed");
+          obj.nestedHeaders[i].style.left = "";
           for (var j = 0; j < obj.rows.length; j++) {
             if (obj.records[j][i]) {
               obj.records[j][i].classList.remove("jexcel_freezed");
