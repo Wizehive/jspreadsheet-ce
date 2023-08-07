@@ -359,6 +359,7 @@ if (!formula && typeof require === "function") {
 
     // Containers
     obj.headers = [];
+    obj.nestedHeaders =[];
     obj.records = [];
     obj.history = [];
     obj.formula = [];
@@ -640,6 +641,7 @@ if (!formula && typeof require === "function") {
 
       // Create headers controllers
       obj.headers = [];
+      obj.nestedHeaders =[];
       obj.colgroup = [];
 
       // Create table container
@@ -1745,8 +1747,10 @@ if (!formula && typeof require === "function") {
     obj.createNestedHeader = function (nestedInformation) {
       var tr = document.createElement("tr");
       tr.classList.add("jexcel_nested");
-      
+
       var td = document.createElement("td");
+      td.classList.add("blank_jexcel_nested");
+
       tr.appendChild(td);
       // Element
       nestedInformation.element = tr;
@@ -1794,7 +1798,8 @@ if (!formula && typeof require === "function") {
         td.textContent = nestedInformation[i].title ? nestedInformation[i].title : jexcel.getColumnName(i) ;
         tr.appendChild(td);
       }
-
+      obj.nestedHeaders = tr
+      console.log("check", obj.nestedHeaders)
       return tr;
     };
 
@@ -8677,6 +8682,7 @@ if (!formula && typeof require === "function") {
             }
           }
           console.log("obj.headers[i]",obj.headers[i]);
+          console.log("obj.nestedHeaders",obj.nestedHeaders)
           obj.headers[i].classList.add("jexcel_freezed");
           obj.headers[i].style.left = width + 50 + "px";
           for (var j = 0; j < obj.rows.length; j++) {

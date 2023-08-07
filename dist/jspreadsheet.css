@@ -636,7 +636,7 @@ td.highlight.highlight-left.highlight-right {
     height: 26px;
 }
 thead>tr>td.jexcel_selectall,
-thead>tr.jexcel_nested>td:first-child{
+thead>tr.jexcel_nested>td.blank_jexcel_nested{
     position: sticky;
     left: 0;
     z-index: 3;
