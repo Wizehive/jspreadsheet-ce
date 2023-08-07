@@ -211,6 +211,7 @@ if (!formula && typeof require === "function") {
       tableHeight: "300px",
       tableWidth: null,
       textOverflow: false,
+      hideRowHeader : false,
       // Meta
       meta: null,
       // Style
@@ -1799,7 +1800,6 @@ if (!formula && typeof require === "function") {
         tr.appendChild(td);
         obj.nestedHeaders.push(td)
       }
-      console.log("check", obj.nestedHeaders)
       return tr;
     };
 
@@ -6077,6 +6077,7 @@ if (!formula && typeof require === "function") {
      */
     obj.hideRowHeaders = function () {
       obj.table.classList.add("jexcel_hidden_index");
+      obj.options.hideRowHeader = true
     };
 
     obj.hideColumnHeaders = function () {
@@ -8682,9 +8683,9 @@ if (!formula && typeof require === "function") {
             }
           }
           obj.headers[i].classList.add("jexcel_freezed");
-          obj.headers[i].style.left = width + 50 + "px";
+          obj.headers[i].style.left = width + (obj.options.hideRowHeader ? "" : 50 )+ "px";
           obj.nestedHeaders[i].classList.add("jexcel_freezed");
-          obj.nestedHeaders[i].style.left = width + 50 + "px";
+          obj.nestedHeaders[i].style.left = width + (obj.options.hideRowHeader ? "" : 50) + "px";
           for (var j = 0; j < obj.rows.length; j++) {
             if (obj.rows[j] && obj.records[j][i]) {
               var shifted =
