@@ -138,7 +138,9 @@
         tooltip: "data-type",
         disable: true,
         k: "data-type",
-        v: ["Data Types", "Text", "Number", "Date"], // Custom data type options
+        v: ["types", "text", "numeric", "calendar", "numeric", "numeric"], // Custom data type options
+        title: ["Data Types","Text","Number","Date","Currency", "Percentage"], // Custom data type options
+        onchange: (e)=> {console.log({e})}
       },
       {
         type: "select",

@@ -1922,7 +1922,7 @@ if (!formula && typeof require === "function") {
               toolbarDropdownOption.disabled = true;
             }
             toolbarDropdownOption.value = toolbar[i].v[j];
-            toolbarDropdownOption.textContent = toolbar[i].v[j];
+            toolbarDropdownOption.textContent = toolbar[i].title ? toolbar[i].title[j] : toolbar[i].v[j] ;
             if (
               toolbar[i].selectedValue &&
               toolbarDropdownOption.value === toolbar[i].selectedValue

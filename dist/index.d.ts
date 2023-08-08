@@ -362,6 +362,9 @@ declare namespace jspreadsheet {
     /** The value of the style should be apply to the cell. */
     v: string[];
 
+		/** Title for the value that is applied from the above "v" key */
+		title?: string[]
+
     /** Select tag onchange event. */
     onchange?: (event: Event, obj: any) => void;
 
@@ -2077,10 +2080,6 @@ declare namespace jspreadsheet {
     */
     hideColumnHeaders: () => void;
 
-    /**
-   * Show Nested Column Headers
-   */
-    hideColumnHeaders: () => void;
 
     /**
 * Show Headers
@@ -2093,7 +2092,7 @@ declare namespace jspreadsheet {
 
       /**
        * Show Nested ColumnHeaders
-       * @returns 
+       * @returns
        */
   showNestedColumnHeaders: () => void;
 
