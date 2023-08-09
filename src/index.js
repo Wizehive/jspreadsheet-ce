@@ -9849,7 +9849,9 @@ if (!formula && typeof require === "function") {
               jexcel.current.orderBy(columnId);
             }
             else {
-              jexcel.current.setHeader(columnId);
+              if(jexcel.current.options.allowRenameColumn == true){
+                jexcel.current.setHeader(columnId);
+              }
             }
           }
         }
