@@ -601,6 +601,8 @@ declare namespace jspreadsheet {
      */
     allowDeleteRow?: boolean;
 
+    showToolbar?:boolean;
+
     /**
      * Allow remove all rows. Otherwise, at least one row will be kept.
      * @default false

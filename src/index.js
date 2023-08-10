@@ -153,6 +153,8 @@ if (!formula && typeof require === "function") {
       editable: true,
       // Allow new rows
       allowInsertRow: true,
+      //hide-unhide toolbar
+      showToolbar : false,
       // Allow new rows
       allowManualInsertRow: true,
       // Allow new columns
@@ -658,10 +660,15 @@ if (!formula && typeof require === "function") {
       // Create toolbar object
       obj.toolbar = document.createElement("div");
       obj.toolbar.classList.add("jexcel_toolbar");
+    
+    
 
       // Create fxBar object
       obj.fxbar = document.createElement("div");
       obj.fxbar.classList.add("jexcel_fxbar");
+      if(!obj.options.showToolbar){
+        obj.fxbar.classList.add("top");
+      }
 
       // Search
       var searchContainer = document.createElement("div");
@@ -876,7 +883,7 @@ if (!formula && typeof require === "function") {
       el.classList.add("jexcel_container");
 
       // Create toolbar
-      if (obj.options.toolbar && obj.options.toolbar.length) {
+      if (obj.options.toolbar && obj.options.toolbar.length && obj.options.showToolbar) {
         obj.createToolbar();
       }
 

@@ -620,6 +620,9 @@ td.highlight.highlight-left.highlight-right {
 .jexcel_toolbar .jcolor-controls {
     display: none;
 }
+.jexcel_fxbar.top {
+    top: 0;
+}
 .jexcel_fxbar {
     display: flex;
     background: #fff;
