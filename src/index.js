@@ -8957,6 +8957,12 @@ if (!formula && typeof require === "function") {
         }
       }
 
+      if(jexcel.current.headerEdition){
+        if(e.which == 13){
+          jexcel.current.closeHeaderEditor(jexcel.current.headerEdition)
+        }
+      }
+
       if (!jexcel.current.edition && jexcel.current.selectedCell) {
         // Which key
         if (e.which == 37) {
