@@ -382,6 +382,7 @@ if (!formula && typeof require === "function") {
     obj.ignoreEvents = false;
     obj.ignoreHistory = false;
     obj.edition = null;
+    obj.headerEdition = null;
     obj.hashString = null;
     obj.resizing = null;
     obj.dragging = null;
@@ -2646,6 +2647,57 @@ if (!formula && typeof require === "function") {
       }
     };
 
+
+    obj.openHeaderEditor = function (header) {
+
+      obj.resetSelection();
+
+
+      // Create editor
+      var createEditor = function (type) {
+        // Cell information
+        var info = header.getBoundingClientRect();
+
+        // Create dropdown
+        var editor = document.createElement(type);
+        editor.style.width = info.width + "px";
+        editor.style.height = info.height - 2 + "px";
+        editor.style.minHeight = info.height - 2 + "px";
+
+        // Edit header
+        header.classList.add("editor");
+        header.innerHTML = "";
+        header.appendChild(editor);
+
+        return editor;
+      };
+
+      // Create another holder for header edition
+      obj.headerEdition = header;
+
+      // Value
+      var value = header.textContent;
+      // Basic editor
+
+      var editor = createEditor("input");
+
+
+      editor.focus();
+      editor.value = value;
+
+      // Column options
+      // var options = obj.options.cellDataTypes[y][x];
+      // Format
+      var opt = null;
+
+      editor.onblur = function () {
+        obj.closeHeaderEditor(header);
+      };
+      editor.scrollLeft = editor.scrollWidth;
+
+
+
+    };
     /**
      * Close the editor and save the information
      *
@@ -2754,6 +2806,23 @@ if (!formula && typeof require === "function") {
 
       // Finish edition
       obj.edition = null;
+    };
+
+    obj.closeHeaderEditor = function (header) {
+
+      var columnIndex = header.getAttribute("data-x");
+      var value = header.children[0].value;
+      header.children[0].onblur = null;
+      obj.headers[columnIndex].textContent = value;
+      // Keep the title property
+      obj.headers[columnIndex].setAttribute("title", value);
+      // Update title
+      obj.options.columns[columnIndex].title = value;
+
+      // Remove editor class
+      header.classList.remove("editor");
+      // Finish edition
+      obj.headerEdition = null;
     };
 
     /**
@@ -9857,7 +9926,7 @@ if (!formula && typeof require === "function") {
             }
             else {
               if(jexcel.current.options.allowRenameColumn == true){
-                jexcel.current.setHeader(columnId);
+                jexcel.current.openHeaderEditor(e.target)
               }
             }
           }

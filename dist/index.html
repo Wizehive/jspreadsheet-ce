@@ -233,6 +233,7 @@
         v: "justify",
       },
     ],
+    showToolbar: true,
     onselection: function (
       el,
       borderLeft,
@@ -334,7 +335,7 @@
     },
     oncolumnselection: (e, cid) => {
       myTable.enableToolbarItem([4, 6]);
-      console.log("On Column Selection", e, cid);
+      // console.log("On Column Selection", e, cid);
       myTable.setDataTypeOptionSelected(6, 2);
     },
     onbodyselection: (e, rid, cid) => {
