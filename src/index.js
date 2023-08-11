@@ -2691,7 +2691,7 @@ if (!formula && typeof require === "function") {
       var opt = null;
 
       editor.onblur = function () {
-        // obj.closeHeaderEditor(header);
+        obj.closeHeaderEditor(header);
       };
       editor.scrollLeft = editor.scrollWidth;
 
