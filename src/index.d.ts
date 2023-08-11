@@ -1010,6 +1010,19 @@ declare namespace jspreadsheet {
       newValue: string
     ) => void;
 
+      /**
+     * Occurs when a column heading is edited.
+     * @param element - Root HTML element of this jss instance.
+     * @param colIndex - Index of the column that was renamed.
+     * @param value - Old column title.
+     * @param newValue - New column title.
+     */
+      oneditcolumnheader?: (
+        element: JspreadsheetInstanceElement,
+        colIndex: string | number,
+        value: string,
+      ) => void;
+
     /**
      * Occurs when a "setMeta" is called.
      *

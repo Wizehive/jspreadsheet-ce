@@ -641,8 +641,8 @@ td.highlight.highlight-left.highlight-right {
 .jexcel>thead>tr>td.editor input{
 border: 1px solid #5CAFE0;
 outline: none;
-box-shadow: -1px -1px #5CAFE0;
-    -webkit-box-shadow: -1px -1px #5CAFE0;
+box-shadow: 0px 0px #5CAFE0;
+    -webkit-box-shadow: 0px 0px #5CAFE0;
 background: #E5F1F8;
 }
 thead>tr>td.jexcel_selectall,

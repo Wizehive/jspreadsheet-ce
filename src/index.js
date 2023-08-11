@@ -2660,7 +2660,7 @@ if (!formula && typeof require === "function") {
 
         // Create dropdown
         var editor = document.createElement(type);
-        editor.style.width = info.width + "px";
+        editor.style.width = info.width -1 + "px";
         editor.style.height = info.height - 2 + "px";
         editor.style.minHeight = info.height - 2 + "px";
 
@@ -2691,7 +2691,7 @@ if (!formula && typeof require === "function") {
       var opt = null;
 
       editor.onblur = function () {
-        obj.closeHeaderEditor(header);
+        // obj.closeHeaderEditor(header);
       };
       editor.scrollLeft = editor.scrollWidth;
 
@@ -2819,10 +2819,13 @@ if (!formula && typeof require === "function") {
       // Update title
       obj.options.columns[columnIndex].title = value;
 
+      // On onchange header
+      obj.dispatch("oneditcolumnheader", el, columnIndex, value);
       // Remove editor class
       header.classList.remove("editor");
+      obj.updateSelectionFromCoords(columnIndex)
       // Finish edition
-      obj.headerEdition = null;
+      obj.headerEdition = null;    
     };
 
     /**
