@@ -75,17 +75,17 @@
 
   myTable = jspreadsheet(document.getElementById("spreadsheet"), {
     data: data2,
-    minDimensions: [50, 6],
+    minDimensions: [5, 6],
     tableOverflow: true,
     tableWidth: "1000px",
-    // columns: [
-    //   { type: "text", width: 300 },
-    //   { type: "text",width: 300,},
-    //   { type: "text", width: 300 },
-    //   { type: "text", width: 300 },
-    //   { type: "text", width: 300 }
-    // ],
-    cellDataTypes: [[{type: "calendar"}]],
+    columns: [
+      { type: "text", width: 200 },
+      { type: "text",width: 200,},
+      { type: "text", width: 200 },
+      { type: 'numeric', title:'Price', width:100, mask:'$#,##0.00', },
+      { type: "text", width: 200 }
+    ],
+    cellDataTypes: [[{type: "numeric",mask:'$#,##0.00'}]],
     allowNestedHeaders: true,
     showToolbar:false,
     toolbar: [
@@ -288,7 +288,7 @@
     disableToolbar: false,
     disableContextMenu: true,
     columnSorting: false,
-    freezeColumns:2,
+    // freezeColumns:2,
     oneditionstart: (e, td) => {
       console.log("Edition Start", td);
       if (td.innerHTML) {

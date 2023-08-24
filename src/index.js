@@ -1393,7 +1393,8 @@ if (!formula && typeof require === "function") {
       }
 
       // Column options
-      var options = obj.options.columns[i];
+      // var options = obj.options.columns[i];
+      var options = obj.options.cellDataTypes[j][i]; //change taking type from cell not from column
       if (options && !isFormula(value)) {
         // Mask options
         var opt = null;
