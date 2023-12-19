@@ -1894,7 +1894,66 @@ if (!formula && typeof require === "function") {
           // Append element
           toolbarItem.textContent = toolbar[i].content;
           obj.toolbar.appendChild(toolbarItem);
-        } else if (toolbar[i].type == "select") {
+        } else if (toolbar[i].type == "select") 
+        {
+          // Tooltip
+          if (toolbar[i].tooltip) {
+             var toolbarItem = document.createElement("div");
+             toolbarItem.classList.add("Select-with-tooltip");
+             var tooltipSpan = document.createElement("span");
+             tooltipSpan.classList.add("tooltip-box");
+             tooltipSpan.innerHTML = toolbar[i].tooltip;
+             toolbarItem.appendChild(tooltipSpan);
+             var toolbarSelect = document.createElement("select");
+              if (toolbar[i].disable) {
+                toolbarSelect.setAttribute("data-disabled", "disabled");
+              }
+              var raiseInitialOnChange = false;
+              toolbarSelect.classList.add("jexcel_toolbar_item");
+              toolbarSelect.setAttribute("data-k", toolbar[i].k);
+            
+               // Handle onchange
+          if (toolbarSelect.onchange && typeof toolbarSelect.onchange) {
+            toolbarSelect.onchange = (function (a) {
+              var b = a;
+              return function (e) {
+                toolbar[b].onchange(e, obj);
+              };
+            })(i);
+            // toolbarItem.onchange = toolbar[i].onchange;
+            raiseInitialOnChange = false;
+          } else {
+            toolbarSelect.onchange = function () {
+              var k = this.getAttribute("data-k");
+              obj.setStyle(obj.highlighted, k, this.value);
+            };
+          }
+          // Add options to the dropdown
+          for (var j = 0; j < toolbar[i].v.length; j++) {
+            var toolbarDropdownOption = document.createElement("option");
+            if (j == 0) {
+              toolbarDropdownOption.selected = true;
+              toolbarDropdownOption.hidden = true;
+              toolbarDropdownOption.disabled = true;
+            }
+            toolbarDropdownOption.value = toolbar[i].v[j];
+            toolbarDropdownOption.textContent = toolbar[i].title ? toolbar[i].title[j] : toolbar[i].v[j] ;
+            if (
+              toolbar[i].selectedValue &&
+              toolbarDropdownOption.value === toolbar[i].selectedValue
+            ) {
+              toolbarDropdownOption.selected = true;
+            }
+            toolbarSelect.appendChild(toolbarDropdownOption);
+          }
+          if (raiseInitialOnChange) {
+            toolbarItem.dispatchEvent(new Event("change"));
+          }
+          toolbarItem.appendChild(toolbarSelect)
+          obj.toolbar.appendChild(toolbarItem);
+          }
+          else
+          {
           var toolbarItem = document.createElement("select");
           if (toolbar[i].disable) {
             toolbarItem.setAttribute("data-disabled", "disabled");
@@ -1902,12 +1961,8 @@ if (!formula && typeof require === "function") {
           var raiseInitialOnChange = false;
           toolbarItem.classList.add("jexcel_toolbar_item");
           toolbarItem.setAttribute("data-k", toolbar[i].k);
-          // Tooltip
-          if (toolbar[i].tooltip) {
-            toolbarItem.setAttribute("title", toolbar[i].tooltip);
-          }
-          // Handle onchange
-          if (toolbar[i].onchange && typeof toolbar[i].onchange) {
+           // Handle onchange
+           if (toolbar[i].onchange && typeof toolbar[i].onchange) {
             toolbarItem.onchange = (function (a) {
               var b = a;
               return function (e) {
@@ -1944,6 +1999,8 @@ if (!formula && typeof require === "function") {
             toolbarItem.dispatchEvent(new Event("change"));
           }
           obj.toolbar.appendChild(toolbarItem);
+          }        
+         
         } else if (toolbar[i].type == "divisor") {
           var toolbarItem = document.createElement("div");
           toolbarItem.classList.add("jexcel_toolbar_item");
@@ -3416,7 +3473,7 @@ if (!formula && typeof require === "function") {
                   var tokens = value.match(/([A-Z]+[0-9]+)/g);
 
                   if (tokens) {
-                    var affectedTokens = [];
+                                        var affectedTokens = [];
                     for (var index = 0; index < tokens.length; index++) {
                       var position = jexcel.getIdFromColumnName(
                         tokens[index],
@@ -3443,7 +3500,7 @@ if (!formula && typeof require === "function") {
                   }
                 } else {
                   if (value == Number(value)) {
-                    value = Number(value) + rowNumber;
+                    value = (Number(value) + rowNumber).toString();
                   }
                 }
               } else if (obj.options.columns[i].type == "calendar") {
@@ -3459,7 +3516,6 @@ if (!formula && typeof require === "function") {
                   "00:00:00";
               }
             }
-
             records.push(obj.updateCell(i, j, value));
 
             // Update all formulas in the chain
@@ -3877,7 +3933,7 @@ if (!formula && typeof require === "function") {
               obj.records[j][ux].classList.add("selection-right");
 
               // Persist selected elements
-              obj.selection.push(obj.records[j][i]);
+                            obj.selection.push(obj.records[j][i]);
             }
           }
         }

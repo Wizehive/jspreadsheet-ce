@@ -20,7 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
-<div id="spreadsheet" style="margin-left: 20%"></div>
+<div id="spreadsheet" style="margin-left: 10%; margin-top: 10%;"></div>
 <button onclick="hideNestedColumnHeaderscheck()">hide Nested ColumnHeaders</button>
 <button onclick="hideColumnHeaderscheck()">Hide ColumnHeaders</button>
 <button onclick="hideRowHeaderscheck()">Hide Row Headers</button>
@@ -135,21 +135,23 @@
       },
       {
         type: "select",
-        tooltip: "data-type",
-        disable: true,
+        // disable: true,
         k: "data-type",
+        tooltip: "All data will be deleted on changing data types",
         v: ["types", "text", "numeric", "calendar", "numeric", "numeric"], // Custom data type options
         title: ["Data Types","Text","Number","Date","Currency", "Percentage"], // Custom data type options
         onchange: (e)=> {console.log({e})}
       },
       {
         type: "select",
+        tooltip: "Font-Family",
         k: "font-family",
         v: ["Arial", "Verdana"],
       },
       {
         type: "select",
         k: "font-size",
+        tooltip: "Font-size",
         v: [
           "9px",
           "10px",

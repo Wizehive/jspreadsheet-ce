@@ -866,3 +866,27 @@ span.icon-text {
 .jcalendar-table ~ .jcalendar-controls{
     display: none;
   }
+  .Select-with-tooltip{
+    position: relative;
+  }
+  .Select-with-tooltip .tooltip-box{
+    display: none;
+  }
+  .Select-with-tooltip:hover .tooltip-box{
+    display: block;
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    top: -45px;
+    color: #fff;
+    word-wrap: break-word;
+    padding: 5px 10px;
+    width: 200px;
+    height: auto;
+    text-align: center;
+    left: -50px;
+    /* font-size: 14px; */
+  }
