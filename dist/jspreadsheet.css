@@ -869,10 +869,10 @@ span.icon-text {
   .Select-with-tooltip{
     position: relative;
   }
-  .Select-with-tooltip .tooltip-box{
+  .Select-with-tooltip{
     display: none;
   }
-  .Select-with-tooltip:hover .tooltip-box{
+  .jexcel_toolbar_item:hover + .Select-with-tooltip{
     display: block;
     position: absolute;
     background-color: rgba(0,0,0,0.8);
@@ -880,13 +880,13 @@ span.icon-text {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    top: -45px;
+    top: -50px;
     color: #fff;
     word-wrap: break-word;
     padding: 5px 10px;
     width: 200px;
     height: auto;
     text-align: center;
-    left: -50px;
+    left: 25%;
     /* font-size: 14px; */
   }

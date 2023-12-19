@@ -20,7 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
-<div id="spreadsheet" style="margin-left: 10%; margin-top: 10%;"></div>
+<div id="spreadsheet" style="margin-left: 10%; margin-top: 20%"></div>
 <button onclick="hideNestedColumnHeaderscheck()">hide Nested ColumnHeaders</button>
 <button onclick="hideColumnHeaderscheck()">Hide ColumnHeaders</button>
 <button onclick="hideRowHeaderscheck()">Hide Row Headers</button>
@@ -36,6 +36,35 @@
   ];
   var styleObj = {};
 
+  // function to show tooltip dynamically
+  // document.addEventListener("DOMContentLoaded", function() {
+  //   // Function to show tooltip
+  //   function showTooltip(element, tooltip) {
+  //     var rect = element.getBoundingClientRect();
+  //     tooltip.style.display = "block";
+  //     tooltip.style.top = rect.bottom + "px";
+  //     tooltip.style.left = rect.left + "px";
+  //   }
+
+  //   // Function to hide tooltip
+  //   function hideTooltip(tooltip) {
+  //     tooltip.style.display = "none";
+  //   }
+
+  //   // Get the select and tooltip elements
+  //   var select = document.getElementById("selectWithdata-type");
+  //   var tooltip = document.getElementById("myTooltipdata-type");
+
+  //   // Attach event listeners using the functions
+  //   select.addEventListener("mouseover", function() {
+  //     showTooltip(select, tooltip);
+  //   });
+
+  //   select.addEventListener("mouseout", function() {
+  //     hideTooltip(tooltip);
+  //   });
+  // });
+  
   var customColumn = {
     // Methods
     closeEditor: function (cell, save) {
@@ -147,6 +176,7 @@
         tooltip: "Font-Family",
         k: "font-family",
         v: ["Arial", "Verdana"],
+        onchange: (e)=> {console.log({e})}
       },
       {
         type: "select",
@@ -166,6 +196,7 @@
           "19px",
           "20px",
         ],
+        onchange: (e)=> {console.log({e})}
       },
       {
         type: "divisor",

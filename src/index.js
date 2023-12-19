@@ -15,8 +15,8 @@ if (!formula && typeof require === "function") {
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
     : typeof define === "function" && define.amd
-      ? define(factory)
-      : (global.jspreadsheet = global.jexcel = factory());
+    ? define(factory)
+    : (global.jspreadsheet = global.jexcel = factory());
 })(this, function () {
   "use strict";
 
@@ -154,7 +154,7 @@ if (!formula && typeof require === "function") {
       // Allow new rows
       allowInsertRow: true,
       //hide-unhide toolbar
-      showToolbar : false,
+      showToolbar: false,
       // Allow new rows
       allowManualInsertRow: true,
       // Allow new columns
@@ -213,7 +213,7 @@ if (!formula && typeof require === "function") {
       tableHeight: "300px",
       tableWidth: null,
       textOverflow: false,
-      hideRowHeader : false,
+      hideRowHeader: false,
       // Meta
       meta: null,
       // Style
@@ -362,7 +362,7 @@ if (!formula && typeof require === "function") {
 
     // Containers
     obj.headers = [];
-    obj.nestedHeaders =[];
+    obj.nestedHeaders = [];
     obj.records = [];
     obj.history = [];
     obj.formula = [];
@@ -621,7 +621,9 @@ if (!formula && typeof require === "function") {
             ) {
               obj.options.cellDataTypes[rowIndex][columnIndex].options.format =
                 "MM/DD/YYYY";
-              obj.options.cellDataTypes[rowIndex][columnIndex].options.today = true;
+              obj.options.cellDataTypes[rowIndex][
+                columnIndex
+              ].options.today = true;
             }
           }
         }
@@ -645,7 +647,7 @@ if (!formula && typeof require === "function") {
 
       // Create headers controllers
       obj.headers = [];
-      obj.nestedHeaders =[];
+      obj.nestedHeaders = [];
       obj.colgroup = [];
 
       // Create table container
@@ -661,13 +663,11 @@ if (!formula && typeof require === "function") {
       // Create toolbar object
       obj.toolbar = document.createElement("div");
       obj.toolbar.classList.add("jexcel_toolbar");
-    
-    
 
       // Create fxBar object
       obj.fxbar = document.createElement("div");
       obj.fxbar.classList.add("jexcel_fxbar");
-      if(!obj.options.showToolbar){
+      if (!obj.options.showToolbar) {
         obj.fxbar.classList.add("top");
       }
 
@@ -739,10 +739,8 @@ if (!formula && typeof require === "function") {
         //     );
         //   }
         // } else {
-          let nestedInformationObject = obj.options.columns.map(col => col)
-          obj.thead.appendChild(
-            obj.createNestedHeader(nestedInformationObject)
-          );
+        let nestedInformationObject = obj.options.columns.map(col => col);
+        obj.thead.appendChild(obj.createNestedHeader(nestedInformationObject));
         // }
       }
 
@@ -842,7 +840,7 @@ if (!formula && typeof require === "function") {
           img.src = "//bossanova.uk/jspreadsheet/logo.png";
           ads.appendChild(img);
         }
-      } catch (exception) { }
+      } catch (exception) {}
       var span = document.createElement("span");
       span.innerHTML = "Jspreadsheet CE";
       ads.appendChild(span);
@@ -884,7 +882,11 @@ if (!formula && typeof require === "function") {
       el.classList.add("jexcel_container");
 
       // Create toolbar
-      if (obj.options.toolbar && obj.options.toolbar.length && obj.options.showToolbar) {
+      if (
+        obj.options.toolbar &&
+        obj.options.toolbar.length &&
+        obj.options.showToolbar
+      ) {
         obj.createToolbar();
       }
 
@@ -1602,10 +1604,10 @@ if (!formula && typeof require === "function") {
         // Try formatted date
         var formatted = null;
         if (!validDate(value)) {
-              if(value.toString().charAt(0)== "=" || value.toString() == "0"){
-                value = ""
-                obj.options.data[j][i] = value
-              }
+          if (value.toString().charAt(0) == "=" || value.toString() == "0") {
+            value = "";
+            obj.options.data[j][i] = value;
+          }
           var tmp = jSuites.calendar.extractDateFromString(
             value,
             obj.options.cellDataTypes[j][i].options.format
@@ -1768,7 +1770,7 @@ if (!formula && typeof require === "function") {
       var headerIndex = 0;
       for (var i = 0; i < nestedInformation.length; i++) {
         // Default values
-        nestedInformation[i] = {}
+        nestedInformation[i] = {};
         if (!nestedInformation[i].colspan) {
           nestedInformation[i].colspan = 1;
         }
@@ -1805,9 +1807,11 @@ if (!formula && typeof require === "function") {
         td.setAttribute("colspan", nestedInformation[i].colspan);
         td.setAttribute("align", nestedInformation[i].align);
         td.setAttribute("id", nestedInformation[i].id);
-        td.textContent = nestedInformation[i].title ? nestedInformation[i].title : jexcel.getColumnName(i) ;
+        td.textContent = nestedInformation[i].title
+          ? nestedInformation[i].title
+          : jexcel.getColumnName(i);
         tr.appendChild(td);
-        obj.nestedHeaders.push(td)
+        obj.nestedHeaders.push(td);
       }
       return tr;
     };
@@ -1894,75 +1898,18 @@ if (!formula && typeof require === "function") {
           // Append element
           toolbarItem.textContent = toolbar[i].content;
           obj.toolbar.appendChild(toolbarItem);
-        } else if (toolbar[i].type == "select") 
-        {
-          // Tooltip
-          if (toolbar[i].tooltip) {
-             var toolbarItem = document.createElement("div");
-             toolbarItem.classList.add("Select-with-tooltip");
-             var tooltipSpan = document.createElement("span");
-             tooltipSpan.classList.add("tooltip-box");
-             tooltipSpan.innerHTML = toolbar[i].tooltip;
-             toolbarItem.appendChild(tooltipSpan);
-             var toolbarSelect = document.createElement("select");
-              if (toolbar[i].disable) {
-                toolbarSelect.setAttribute("data-disabled", "disabled");
-              }
-              var raiseInitialOnChange = false;
-              toolbarSelect.classList.add("jexcel_toolbar_item");
-              toolbarSelect.setAttribute("data-k", toolbar[i].k);
-            
-               // Handle onchange
-          if (toolbarSelect.onchange && typeof toolbarSelect.onchange) {
-            toolbarSelect.onchange = (function (a) {
-              var b = a;
-              return function (e) {
-                toolbar[b].onchange(e, obj);
-              };
-            })(i);
-            // toolbarItem.onchange = toolbar[i].onchange;
-            raiseInitialOnChange = false;
-          } else {
-            toolbarSelect.onchange = function () {
-              var k = this.getAttribute("data-k");
-              obj.setStyle(obj.highlighted, k, this.value);
-            };
-          }
-          // Add options to the dropdown
-          for (var j = 0; j < toolbar[i].v.length; j++) {
-            var toolbarDropdownOption = document.createElement("option");
-            if (j == 0) {
-              toolbarDropdownOption.selected = true;
-              toolbarDropdownOption.hidden = true;
-              toolbarDropdownOption.disabled = true;
-            }
-            toolbarDropdownOption.value = toolbar[i].v[j];
-            toolbarDropdownOption.textContent = toolbar[i].title ? toolbar[i].title[j] : toolbar[i].v[j] ;
-            if (
-              toolbar[i].selectedValue &&
-              toolbarDropdownOption.value === toolbar[i].selectedValue
-            ) {
-              toolbarDropdownOption.selected = true;
-            }
-            toolbarSelect.appendChild(toolbarDropdownOption);
-          }
-          if (raiseInitialOnChange) {
-            toolbarItem.dispatchEvent(new Event("change"));
-          }
-          toolbarItem.appendChild(toolbarSelect)
-          obj.toolbar.appendChild(toolbarItem);
-          }
-          else
-          {
+        } else if (toolbar[i].type == "select") {
           var toolbarItem = document.createElement("select");
+          var dynamicId = "selectWith";
+          toolbarItem.id = dynamicId;
           if (toolbar[i].disable) {
             toolbarItem.setAttribute("data-disabled", "disabled");
           }
           var raiseInitialOnChange = false;
           toolbarItem.classList.add("jexcel_toolbar_item");
           toolbarItem.setAttribute("data-k", toolbar[i].k);
-           // Handle onchange
-           if (toolbar[i].onchange && typeof toolbar[i].onchange) {
+          // Handle onchange
+          if (toolbar[i].onchange && typeof toolbar[i].onchange) {
             toolbarItem.onchange = (function (a) {
               var b = a;
               return function (e) {
@@ -1986,7 +1933,9 @@ if (!formula && typeof require === "function") {
               toolbarDropdownOption.disabled = true;
             }
             toolbarDropdownOption.value = toolbar[i].v[j];
-            toolbarDropdownOption.textContent = toolbar[i].title ? toolbar[i].title[j] : toolbar[i].v[j] ;
+            toolbarDropdownOption.textContent = toolbar[i].title
+              ? toolbar[i].title[j]
+              : toolbar[i].v[j];
             if (
               toolbar[i].selectedValue &&
               toolbarDropdownOption.value === toolbar[i].selectedValue
@@ -1999,8 +1948,26 @@ if (!formula && typeof require === "function") {
             toolbarItem.dispatchEvent(new Event("change"));
           }
           obj.toolbar.appendChild(toolbarItem);
-          }        
-         
+
+          // Tooltip
+          if (toolbar[i].tooltip) {
+            var tooltipDiv = document.createElement("div");
+            var tooltipId =  ("myTooltip" + toolbar[i].k);
+            tooltipDiv.id = tooltipId
+            tooltipDiv.classList.add("Select-with-tooltip");
+            var tooltipSpan = document.createElement("span");
+            tooltipSpan.classList.add("tooltip-box");
+            tooltipSpan.innerHTML = toolbar[i].tooltip;
+            tooltipDiv.setAttribute("title", toolbar[i].tooltip);
+            tooltipDiv.appendChild(tooltipSpan);
+            obj.toolbar.appendChild(tooltipDiv);
+            // Get the select and tooltip elements
+            var SelectDiv = document.getElementById("selectWith");
+            // Generate a dynamic ID (for example, adding a timestamp)
+            var dynamicId = "selectWith" + toolbar[i].k;
+            SelectDiv.id = dynamicId
+
+          }
         } else if (toolbar[i].type == "divisor") {
           var toolbarItem = document.createElement("div");
           toolbarItem.classList.add("jexcel_toolbar_item");
@@ -2047,12 +2014,12 @@ if (!formula && typeof require === "function") {
     };
 
     obj.enableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach((index) =>
+      toolbarItemIndexArray.forEach(index =>
         obj.toolbar.children[index].removeAttribute("data-disabled")
       );
     };
     obj.disableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach((index) =>
+      toolbarItemIndexArray.forEach(index =>
         obj.toolbar.children[index].setAttribute("data-disabled", "disabled")
       );
     };
@@ -2557,7 +2524,7 @@ if (!formula && typeof require === "function") {
               multiple: obj.options.cellDataTypes[y][x].multiple ? true : false,
               autocomplete:
                 obj.options.cellDataTypes[y][x].autocomplete ||
-                  obj.options.cellDataTypes[y][x].type == "autocomplete"
+                obj.options.cellDataTypes[y][x].type == "autocomplete"
                   ? true
                   : false,
               opened: true,
@@ -2566,7 +2533,7 @@ if (!formula && typeof require === "function") {
               height: editor.style.minHeight,
               position:
                 obj.options.tableOverflow == true ||
-                  obj.options.fullscreen == true
+                obj.options.fullscreen == true
                   ? true
                   : false,
               onclose: function () {
@@ -2705,11 +2672,8 @@ if (!formula && typeof require === "function") {
       }
     };
 
-
     obj.openHeaderEditor = function (header) {
-
       obj.resetSelection();
-
 
       // Create editor
       var createEditor = function (type) {
@@ -2718,7 +2682,7 @@ if (!formula && typeof require === "function") {
 
         // Create dropdown
         var editor = document.createElement(type);
-        editor.style.width = info.width -1 + "px";
+        editor.style.width = info.width - 1 + "px";
         editor.style.height = info.height - 2 + "px";
         editor.style.minHeight = info.height - 2 + "px";
 
@@ -2739,7 +2703,6 @@ if (!formula && typeof require === "function") {
 
       var editor = createEditor("input");
 
-
       editor.focus();
       editor.value = value;
 
@@ -2752,9 +2715,6 @@ if (!formula && typeof require === "function") {
         obj.closeHeaderEditor(header);
       };
       editor.scrollLeft = editor.scrollWidth;
-
-
-
     };
     /**
      * Close the editor and save the information
@@ -2867,7 +2827,6 @@ if (!formula && typeof require === "function") {
     };
 
     obj.closeHeaderEditor = function (header) {
-
       var columnIndex = header.getAttribute("data-x");
       var value = header.children[0].value;
       header.children[0].onblur = null;
@@ -2881,9 +2840,9 @@ if (!formula && typeof require === "function") {
       obj.dispatch("oneditcolumnheader", el, columnIndex, value);
       // Remove editor class
       header.classList.remove("editor");
-      obj.updateSelectionFromCoords(columnIndex)
+      obj.updateSelectionFromCoords(columnIndex);
       // Finish edition
-      obj.headerEdition = null;    
+      obj.headerEdition = null;
     };
 
     /**
@@ -3166,7 +3125,7 @@ if (!formula && typeof require === "function") {
       var b = new Option();
       b.innerHTML = a;
       var c = null;
-      for (a = b.getElementsByTagName("script"); (c = a[0]);)
+      for (a = b.getElementsByTagName("script"); (c = a[0]); )
         c.parentNode.removeChild(c);
       return b.innerHTML;
     };
@@ -3273,8 +3232,11 @@ if (!formula && typeof require === "function") {
             // Try formatted date
             var formatted = null;
             if (!validDate(value)) {
-              if(value.toString().charAt(0)== "=" || value.toString() == "0"){
-                value = ''
+              if (
+                value.toString().charAt(0) == "=" ||
+                value.toString() == "0"
+              ) {
+                value = "";
               }
               var tmp = jSuites.calendar.extractDateFromString(
                 value,
@@ -3473,7 +3435,7 @@ if (!formula && typeof require === "function") {
                   var tokens = value.match(/([A-Z]+[0-9]+)/g);
 
                   if (tokens) {
-                                        var affectedTokens = [];
+                    var affectedTokens = [];
                     for (var index = 0; index < tokens.length; index++) {
                       var position = jexcel.getIdFromColumnName(
                         tokens[index],
@@ -3933,7 +3895,7 @@ if (!formula && typeof require === "function") {
               obj.records[j][ux].classList.add("selection-right");
 
               // Persist selected elements
-                            obj.selection.push(obj.records[j][i]);
+              obj.selection.push(obj.records[j][i]);
             }
           }
         }
@@ -4702,22 +4664,22 @@ if (!formula && typeof require === "function") {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                    ? -1
-                    : valueA > valueB
-                      ? 1
-                      : valueA < valueB
-                        ? -1
-                        : 0;
+                  ? -1
+                  : valueA > valueB
+                  ? 1
+                  : valueA < valueB
+                  ? -1
+                  : 0;
               } else {
                 return valueA === "" && valueB !== ""
                   ? 1
                   : valueA !== "" && valueB === ""
-                    ? -1
-                    : valueA > valueB
-                      ? -1
-                      : valueA < valueB
-                        ? 1
-                        : 0;
+                  ? -1
+                  : valueA > valueB
+                  ? -1
+                  : valueA < valueB
+                  ? 1
+                  : 0;
               }
             };
           };
@@ -6089,7 +6051,7 @@ if (!formula && typeof require === "function") {
      */
     obj.setReadOnly = function (cell, state) {
       if (Array.isArray(cell) && cell.length > 2) {
-        const betweenCells = (selectedArray) => {
+        const betweenCells = selectedArray => {
           const finalArray = [];
           const [first, second, third, fourth] = selectedArray;
           let minCol = first,
@@ -6116,7 +6078,7 @@ if (!formula && typeof require === "function") {
           return finalArray;
         };
         const arrayOfCoords = betweenCells(cell);
-        arrayOfCoords.forEach((coord) => obj.setReadOnly(coord, state));
+        arrayOfCoords.forEach(coord => obj.setReadOnly(coord, state));
       }
       if ((cell = obj.getCell(cell))) {
         const cellCoords = [
@@ -6127,8 +6089,7 @@ if (!formula && typeof require === "function") {
           cell.classList.add("readonly");
           if (
             obj.readOnlyCells.findIndex(
-              (coord) =>
-                coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+              coord => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
             ) == -1
           ) {
             obj.readOnlyCells.push(cellCoords);
@@ -6136,7 +6097,7 @@ if (!formula && typeof require === "function") {
         } else {
           cell.classList.remove("readonly");
           const indexOfCoords = obj.readOnlyCells.findIndex(
-            (coord) => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+            coord => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
           );
           if (indexOfCoords !== -1) {
             obj.readOnlyCells.splice(indexOfCoords, 1);
@@ -6213,7 +6174,7 @@ if (!formula && typeof require === "function") {
      */
     obj.hideRowHeaders = function () {
       obj.table.classList.add("jexcel_hidden_index");
-      obj.options.hideRowHeader = true
+      obj.options.hideRowHeader = true;
     };
 
     obj.hideColumnHeaders = function () {
@@ -6469,7 +6430,7 @@ if (!formula && typeof require === "function") {
                 if (
                   typeof obj.options.data[position[1]] != "undefined" &&
                   typeof obj.options.data[position[1]][position[0]] !=
-                  "undefined"
+                    "undefined"
                 ) {
                   var value = obj.options.data[position[1]][position[0]];
                 } else {
@@ -6568,12 +6529,12 @@ if (!formula && typeof require === "function") {
     /**
      * Get row number
      */
-    obj.row = function (cell) { };
+    obj.row = function (cell) {};
 
     /**
      * Get col number
      */
-    obj.col = function (cell) { };
+    obj.col = function (cell) {};
 
     obj.up = function (shiftKey, ctrlKey) {
       if (shiftKey) {
@@ -8819,9 +8780,11 @@ if (!formula && typeof require === "function") {
             }
           }
           obj.headers[i].classList.add("jexcel_freezed");
-          obj.headers[i].style.left = width + (obj.options.hideRowHeader ? "" : 50 )+ "px";
+          obj.headers[i].style.left =
+            width + (obj.options.hideRowHeader ? "" : 50) + "px";
           obj.nestedHeaders[i].classList.add("jexcel_freezed");
-          obj.nestedHeaders[i].style.left = width + (obj.options.hideRowHeader ? "" : 50) + "px";
+          obj.nestedHeaders[i].style.left =
+            width + (obj.options.hideRowHeader ? "" : 50) + "px";
           for (var j = 0; j < obj.rows.length; j++) {
             if (obj.rows[j] && obj.records[j][i]) {
               var shifted =
@@ -8971,9 +8934,9 @@ if (!formula && typeof require === "function") {
             jexcel.current.closeEditor(jexcel.current.edition[0], true);
           } else if (
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-            "dropdown" ||
+              "dropdown" ||
             jexcel.current.options.columns[jexcel.current.edition[2]].type ==
-            "autocomplete"
+              "autocomplete"
           ) {
             // Do nothing
           } else {
@@ -9017,9 +8980,9 @@ if (!formula && typeof require === "function") {
         }
       }
 
-      if(jexcel.current.headerEdition){
-        if(e.which == 13){
-          jexcel.current.closeHeaderEditor(jexcel.current.headerEdition)
+      if (jexcel.current.headerEdition) {
+        if (e.which == 13) {
+          jexcel.current.closeHeaderEditor(jexcel.current.headerEdition);
         }
       }
 
@@ -9163,7 +9126,7 @@ if (!formula && typeof require === "function") {
                     e.preventDefault();
                     if (
                       jexcel.current.options.columns[columnId].type ==
-                      "checkbox" ||
+                        "checkbox" ||
                       jexcel.current.options.columns[columnId].type == "radio"
                     ) {
                       jexcel.current.setCheckRadioValue();
@@ -9187,7 +9150,7 @@ if (!formula && typeof require === "function") {
                     (e.keyCode >= 187 && e.keyCode <= 190) ||
                     ((String.fromCharCode(e.keyCode) == e.key ||
                       String.fromCharCode(e.keyCode).toLowerCase() ==
-                      e.key.toLowerCase()) &&
+                        e.key.toLowerCase()) &&
                       jexcel.validLetter(String.fromCharCode(e.keyCode)))
                   ) {
                     // Start edition
@@ -9981,23 +9944,19 @@ if (!formula && typeof require === "function") {
         var jexcelTable = jexcel.getElement(e.target);
 
         // Double click over header
-        if (
-          jexcelTable[1] == 1
-        ) {
+        if (jexcelTable[1] == 1) {
           // Check valid column header coords
           var columnId = e.target.getAttribute("data-x");
           if (columnId) {
             if (jexcel.current.options.columnSorting == true) {
               jexcel.current.orderBy(columnId);
-            }
-            else {
-              if(jexcel.current.options.allowRenameColumn == true){
-                jexcel.current.openHeaderEditor(e.target)
+            } else {
+              if (jexcel.current.options.allowRenameColumn == true) {
+                jexcel.current.openHeaderEditor(e.target);
               }
             }
           }
         }
-
 
         // Double click over body
         if (jexcelTable[1] == 2 && jexcel.current.options.editable == true) {
@@ -10833,7 +10792,7 @@ if (!formula && typeof require === "function") {
     /**
      * Extract json configuration from a TABLE DOM tag
      */
-    component.createFromTable = function () { };
+    component.createFromTable = function () {};
 
     /**
      * Helper injectArray
