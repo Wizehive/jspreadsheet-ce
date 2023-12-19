@@ -210,7 +210,7 @@ if (!formula && typeof require === "function") {
       loadingSpin: false,
       // Table overflow
       tableOverflow: false,
-      tableHeight: "300px",
+      tableHeight: "400px",
       tableWidth: null,
       textOverflow: false,
       hideRowHeader: false,
