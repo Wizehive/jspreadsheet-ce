@@ -4898,7 +4898,7 @@ if (!formula && typeof require === "function") {
         // Direction
         var insertBefore = insertBefore ? true : false;
 
-        // Current column number
+        // Current row number
         var lastRow = obj.options.data.length - 1;
 
         if (
@@ -4975,6 +4975,7 @@ if (!formula && typeof require === "function") {
             obj.options.data[row][col] = data[col] ? data[col] : "";
           }
           // Create row
+          obj.options.cellDataTypes.splice(rowIndex, 0, obj.options.cellDataTypes[rowNumber])
           var tr = obj.createRow(row, obj.options.data[row]);
           // Append node
           if (currentRows[0]) {
