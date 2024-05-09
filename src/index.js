@@ -10048,14 +10048,15 @@ if (!formula && typeof require === "function") {
 
           if (x || y) {
             if (
-              x < parseInt(jexcel.current.selectedCell[0]) ||
-              x > parseInt(jexcel.current.selectedCell[2]) ||
-              y < parseInt(jexcel.current.selectedCell[1]) ||
-              y > parseInt(jexcel.current.selectedCell[3])
+              x < parseInt(jexcel?.current?.selectedCell?.[0]) ||
+              x > parseInt(jexcel?.current?.selectedCell?.[2]) ||
+              y < parseInt(jexcel?.current?.selectedCell?.[1]) ||
+              y > parseInt(jexcel?.current?.selectedCell?.[3])
             ) {
               jexcel.current.updateSelectionFromCoords(x, y, x, y);
             }
 
+            
             // Table found
             var items = jexcel.current.options.contextMenu(
               jexcel.current,
