@@ -20,7 +20,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
-<div id="spreadsheet" style="margin-left: 10%; margin-top: 20%"></div>
+<div id="spreadsheet1" style="margin-left: 10%; margin-top: 5%"></div>
+<div id="spreadsheet2" style="margin-left: 10%; margin-top: 5%"></div>
+<div id="spreadsheet3" style="margin-left: 10%; margin-top: 5%"></div>
+
 <button onclick="hideNestedColumnHeaderscheck()">hide Nested ColumnHeaders</button>
 <button onclick="hideColumnHeaderscheck()">Hide ColumnHeaders</button>
 <button onclick="hideRowHeaderscheck()">Hide Row Headers</button>
@@ -102,7 +105,7 @@
     },
   };
 
-  myTable = jspreadsheet(document.getElementById("spreadsheet"), {
+  myTable = jspreadsheet(document.getElementById("spreadsheet1"), {
     data: data2,
     minDimensions: [5, 6],
     tableOverflow: true,
@@ -381,7 +384,588 @@
       // myTable.disableToolbarItem();
       console.log("On Row Selection", e, rid);
     },
+    oneditcolumnheader: () =>{
+      console.log("On edition end of column header")
+    },
+    onblur: () => {
+      console.log("On Blur")
+    }
   });
+  myTable = jspreadsheet(document.getElementById("spreadsheet2"), {
+    data: data2,
+    minDimensions: [5, 6],
+    tableOverflow: true,
+    tableWidth: "1000px",
+    columns: [
+      { type: "text", width: 200 },
+      { type: "text",width: 200,},
+      { type: "text", width: 200 },
+      { type: 'numeric', title:'Price', width:100, mask:'$#,##0.00', },
+      { type: "text", width: 200 }
+    ],
+    cellDataTypes: [[{type: "numeric",mask:'$#,##0.00'}]],
+    allowNestedHeaders: true,
+    showToolbar:false,
+    toolbar: [
+      {
+        type: "i",
+        content: "undo",
+        onclick: function () {
+          myTable.undo();
+        },
+      },
+      {
+        type: "i",
+        content: "redo",
+        onclick: function () {
+          myTable.redo();
+        },
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "lock",
+        tooltip: "Editable",
+        showtext: "Editable",
+        onclick: function () {
+          const [first, second] = myTable.selectedCell;
+          let readOnlyFlag = false;
+          if (!myTable.isReadOnly([first, second])) {
+            readOnlyFlag = !readOnlyFlag;
+          }
+          myTable.setReadOnly([0, 1], true);
+        },
+      },
+      {
+        type: "i",
+        content: "ac_unit",
+        tooltip: "freeze",
+        showtext: "Freeze",
+        disable: true,
+        onclick: function () {
+          console.log(myTable.getSelectedColumns());
+        },
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "select",
+        // disable: true,
+        k: "data-type",
+        tooltip: "All data will be deleted on changing data types",
+        v: ["types", "text", "numeric", "calendar", "numeric", "numeric"], // Custom data type options
+        title: ["Data Types","Text","Number","Date","Currency", "Percentage"], // Custom data type options
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "select",
+        tooltip: "Font-Family",
+        k: "font-family",
+        v: ["Arial", "Verdana"],
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "select",
+        k: "font-size",
+        tooltip: "Font-size",
+        v: [
+          "9px",
+          "10px",
+          "11px",
+          "12px",
+          "13px",
+          "14px",
+          "15px",
+          "16px",
+          "17px",
+          "18px",
+          "19px",
+          "20px",
+        ],
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "format_bold",
+        k: "font-weight",
+        v: "bold",
+      },
+      {
+        type: "i",
+        content: "format_italic",
+        k: "font-style",
+        v: "italic",
+      },
+      {
+        type: "i",
+        content: "format_underline",
+        k: "text-decoration",
+        v: "underline",
+      },
+      {
+        type: "i",
+        content: "strikethrough_s",
+        k: "text-decoration",
+        v: "line-through",
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "color",
+        content: "format_color_text",
+        k: "color",
+      },
+      {
+        type: "color",
+        content: "format_color_fill",
+        k: "background-color",
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "format_align_left",
+        k: "text-align",
+        v: "left",
+      },
+      {
+        type: "i",
+        content: "format_align_center",
+        k: "text-align",
+        v: "center",
+      },
+      {
+        type: "i",
+        content: "format_align_right",
+        k: "text-align",
+        v: "right",
+      },
+      {
+        type: "i",
+        content: "format_align_justify",
+        k: "text-align",
+        v: "justify",
+      },
+    ],
+    showToolbar: true,
+    onselection: function (
+      el,
+      borderLeft,
+      borderTop,
+      borderRight,
+      borderBottom
+    ) {
+      var columnStart = borderLeft;
+      var columnEnd = borderRight;
+      var rowStart = borderTop;
+      var rowEnd = borderBottom;
+      if (columnStart === columnEnd && rowStart === rowEnd) {
+        // Single cell selected
+        var columnName = String.fromCharCode(65 + columnStart);
+        var cellAddress = columnName + (rowStart + 1);
+        var cellValue = myTable.getValue(cellAddress, false);
+        console.log({cellValue})
+        myTable.setCellIndication(cellAddress);
+        myTable.setCellValue(cellValue);
+      } else if (rowStart === rowEnd) {
+        // Entire column selected
+        var columnNameStart =
+          String.fromCharCode(65 + columnStart) + (rowStart + 1);
+        var columnNameEnd =
+          String.fromCharCode(65 + columnEnd) + (rowStart + 1);
+        var columnRangeAddress = columnNameStart + ":" + columnNameEnd;
+        myTable.setCellIndication(columnRangeAddress);
+      } else if (rowStart === 0 && rowEnd === 0 && columnStart !== columnEnd) {
+        // Range of columns selected
+        var columnNameStart =
+          String.fromCharCode(65 + columnStart) + (rowStart + 1);
+        var columnNameEnd = String.fromCharCode(65 + columnEnd) + (rowEnd + 1);
+        var columnRangeAddress = columnNameStart + ":" + columnNameEnd;
+        myTable.setCellIndication(columnRangeAddress);
+      } else {
+        // Multiple cells selected
+        var selectedCells = [];
+
+        // Iterate over the selected columns
+        for (var col = columnStart; col <= columnEnd; col++) {
+          var columnName = String.fromCharCode(65 + col);
+          selectedCells.push(
+            columnName + (rowStart + 1) + ":" + columnName + (rowEnd + 1)
+          );
+        }
+        myTable.setCellIndication(selectedCells.join(", "));
+      }
+    },
+    allowManualInsertRow: false,
+    allowInsertRow: true,
+    allowManualInsertColumn: false,
+    disableToolbar: false,
+    disableContextMenu: false,
+    about: false,
+    allowExport: false,
+    columnSorting: false,
+    // freezeColumns:2,
+    oneditionstart: (e, td) => {
+      console.log("Edition Start", td);
+      if (td.innerHTML) {
+        if (td.innerHTML.charAt(0) === "=") {
+          styleObj = {};
+          const val = td.innerHTML.toUpperCase();
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
+        }
+      }
+      td.addEventListener("input", (event) => {
+        if (
+          event.inputType === "deleteContentBackward" ||
+          event.inputType === "deleteContentForward"
+        ) {
+          let newStyleObj = {};
+          Object.keys(styleObj).forEach(
+            (key) => (newStyleObj[key] = "border:;")
+          );
+          myTable.setStyle(newStyleObj);
+        }
+        const value = event.target.value;
+        if (event.key == "=" || value.charAt(0) === "=") {
+          styleObj = {};
+          const val = value.toUpperCase();
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
+        }
+      });
+    },
+    oneditionend: (e, td) => {
+      console.log("on Edition End Of Cell.")
+      let newStyleObj = {};
+      Object.keys(styleObj).forEach((key) => (newStyleObj[key] = "border:;"));
+      myTable.setStyle(newStyleObj);
+      styleObj = {};
+    },
+    oncolumnselection: (e, cid) => {
+      myTable.enableToolbarItem([4, 6]);
+      // console.log("On Column Selection", e, cid);
+      myTable.setDataTypeOptionSelected(6, 2);
+    },
+    onbodyselection: (e, rid, cid) => {
+      myTable.disableToolbarItem([4, 6]);
+      console.log("On Body Selection", e, rid, cid);
+    },
+    onrowselection: (e, rid) => {
+      // myTable.disableToolbarItem();
+      console.log("On Row Selection", e, rid);
+    },
+    oneditcolumnheader: () =>{
+      console.log("On edition end of column header")
+    },
+    onblur: () => {
+      console.log("On Blur")
+    }
+  });
+  myTable = jspreadsheet(document.getElementById("spreadsheet3"), {
+    data: data2,
+    minDimensions: [5, 6],
+    tableOverflow: true,
+    tableWidth: "1000px",
+    columns: [
+      { type: "text", width: 200 },
+      { type: "text",width: 200,},
+      { type: "text", width: 200 },
+      { type: 'numeric', title:'Price', width:100, mask:'$#,##0.00', },
+      { type: "text", width: 200 }
+    ],
+    cellDataTypes: [[{type: "numeric",mask:'$#,##0.00'}]],
+    allowNestedHeaders: true,
+    showToolbar:false,
+    toolbar: [
+      {
+        type: "i",
+        content: "undo",
+        onclick: function () {
+          myTable.undo();
+        },
+      },
+      {
+        type: "i",
+        content: "redo",
+        onclick: function () {
+          myTable.redo();
+        },
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "lock",
+        tooltip: "Editable",
+        showtext: "Editable",
+        onclick: function () {
+          const [first, second] = myTable.selectedCell;
+          let readOnlyFlag = false;
+          if (!myTable.isReadOnly([first, second])) {
+            readOnlyFlag = !readOnlyFlag;
+          }
+          myTable.setReadOnly([0, 1], true);
+        },
+      },
+      {
+        type: "i",
+        content: "ac_unit",
+        tooltip: "freeze",
+        showtext: "Freeze",
+        disable: true,
+        onclick: function () {
+          console.log(myTable.getSelectedColumns());
+        },
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "select",
+        // disable: true,
+        k: "data-type",
+        tooltip: "All data will be deleted on changing data types",
+        v: ["types", "text", "numeric", "calendar", "numeric", "numeric"], // Custom data type options
+        title: ["Data Types","Text","Number","Date","Currency", "Percentage"], // Custom data type options
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "select",
+        tooltip: "Font-Family",
+        k: "font-family",
+        v: ["Arial", "Verdana"],
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "select",
+        k: "font-size",
+        tooltip: "Font-size",
+        v: [
+          "9px",
+          "10px",
+          "11px",
+          "12px",
+          "13px",
+          "14px",
+          "15px",
+          "16px",
+          "17px",
+          "18px",
+          "19px",
+          "20px",
+        ],
+        onchange: (e)=> {console.log({e})}
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "format_bold",
+        k: "font-weight",
+        v: "bold",
+      },
+      {
+        type: "i",
+        content: "format_italic",
+        k: "font-style",
+        v: "italic",
+      },
+      {
+        type: "i",
+        content: "format_underline",
+        k: "text-decoration",
+        v: "underline",
+      },
+      {
+        type: "i",
+        content: "strikethrough_s",
+        k: "text-decoration",
+        v: "line-through",
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "color",
+        content: "format_color_text",
+        k: "color",
+      },
+      {
+        type: "color",
+        content: "format_color_fill",
+        k: "background-color",
+      },
+      {
+        type: "divisor",
+      },
+      {
+        type: "i",
+        content: "format_align_left",
+        k: "text-align",
+        v: "left",
+      },
+      {
+        type: "i",
+        content: "format_align_center",
+        k: "text-align",
+        v: "center",
+      },
+      {
+        type: "i",
+        content: "format_align_right",
+        k: "text-align",
+        v: "right",
+      },
+      {
+        type: "i",
+        content: "format_align_justify",
+        k: "text-align",
+        v: "justify",
+      },
+    ],
+    showToolbar: true,
+    onselection: function (
+      el,
+      borderLeft,
+      borderTop,
+      borderRight,
+      borderBottom
+    ) {
+      var columnStart = borderLeft;
+      var columnEnd = borderRight;
+      var rowStart = borderTop;
+      var rowEnd = borderBottom;
+      if (columnStart === columnEnd && rowStart === rowEnd) {
+        // Single cell selected
+        var columnName = String.fromCharCode(65 + columnStart);
+        var cellAddress = columnName + (rowStart + 1);
+        var cellValue = myTable.getValue(cellAddress, false);
+        console.log({cellValue})
+        myTable.setCellIndication(cellAddress);
+        myTable.setCellValue(cellValue);
+      } else if (rowStart === rowEnd) {
+        // Entire column selected
+        var columnNameStart =
+          String.fromCharCode(65 + columnStart) + (rowStart + 1);
+        var columnNameEnd =
+          String.fromCharCode(65 + columnEnd) + (rowStart + 1);
+        var columnRangeAddress = columnNameStart + ":" + columnNameEnd;
+        myTable.setCellIndication(columnRangeAddress);
+      } else if (rowStart === 0 && rowEnd === 0 && columnStart !== columnEnd) {
+        // Range of columns selected
+        var columnNameStart =
+          String.fromCharCode(65 + columnStart) + (rowStart + 1);
+        var columnNameEnd = String.fromCharCode(65 + columnEnd) + (rowEnd + 1);
+        var columnRangeAddress = columnNameStart + ":" + columnNameEnd;
+        myTable.setCellIndication(columnRangeAddress);
+      } else {
+        // Multiple cells selected
+        var selectedCells = [];
+
+        // Iterate over the selected columns
+        for (var col = columnStart; col <= columnEnd; col++) {
+          var columnName = String.fromCharCode(65 + col);
+          selectedCells.push(
+            columnName + (rowStart + 1) + ":" + columnName + (rowEnd + 1)
+          );
+        }
+        myTable.setCellIndication(selectedCells.join(", "));
+      }
+    },
+    allowManualInsertRow: false,
+    allowInsertRow: true,
+    allowManualInsertColumn: false,
+    disableToolbar: false,
+    disableContextMenu: false,
+    about: false,
+    allowExport: false,
+    columnSorting: false,
+    // freezeColumns:2,
+    oneditionstart: (e, td) => {
+      console.log("Edition Start", td);
+      if (td.innerHTML) {
+        if (td.innerHTML.charAt(0) === "=") {
+          styleObj = {};
+          const val = td.innerHTML.toUpperCase();
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
+        }
+      }
+      td.addEventListener("input", (event) => {
+        if (
+          event.inputType === "deleteContentBackward" ||
+          event.inputType === "deleteContentForward"
+        ) {
+          let newStyleObj = {};
+          Object.keys(styleObj).forEach(
+            (key) => (newStyleObj[key] = "border:;")
+          );
+          myTable.setStyle(newStyleObj);
+        }
+        const value = event.target.value;
+        if (event.key == "=" || value.charAt(0) === "=") {
+          styleObj = {};
+          const val = value.toUpperCase();
+          const cellPattern = /[A-Z]+\d+/g; // Regular expression to match cell
+          const cellReferences = val.match(cellPattern);
+          cellReferences?.forEach((cell, index) => {
+            styleObj[cell] = getStyleForCell(index);
+          });
+          myTable.setStyle(styleObj);
+        }
+      });
+    },
+    oneditionend: (e, td) => {
+      console.log("on Edition End Of Cell.")
+      let newStyleObj = {};
+      Object.keys(styleObj).forEach((key) => (newStyleObj[key] = "border:;"));
+      myTable.setStyle(newStyleObj);
+      styleObj = {};
+    },
+    oncolumnselection: (e, cid) => {
+      myTable.enableToolbarItem([4, 6]);
+      // console.log("On Column Selection", e, cid);
+      myTable.setDataTypeOptionSelected(6, 2);
+    },
+    onbodyselection: (e, rid, cid) => {
+      myTable.disableToolbarItem([4, 6]);
+      console.log("On Body Selection", e, rid, cid);
+    },
+    onrowselection: (e, rid) => {
+      // myTable.disableToolbarItem();
+      console.log("On Row Selection", e, rid);
+    },
+    oneditcolumnheader: () =>{
+      console.log("On edition end of column header")
+    },
+    onblur: () => {
+      console.log("On Blur")
+    }
+  });
+  
   const hideNestedColumnHeaderscheck  = () => {
     myTable.hideNestedColumnHeaders()
   };

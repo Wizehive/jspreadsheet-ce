@@ -9207,7 +9207,7 @@ if (!formula && typeof require === "function") {
           if (jexcel.current.edition) {
             jexcel.current.closeEditor(jexcel.current.edition[0], true);
           }
-          jexcel.current.resetSelection();
+          jexcel.current.resetSelection(true);
         }
         jexcel.current = jexcelTable[0].jexcel;
       }
