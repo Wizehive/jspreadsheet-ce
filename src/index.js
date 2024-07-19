@@ -1293,6 +1293,11 @@ if (!formula && typeof require === "function") {
       return obj.options.data[rowNumber];
     };
 
+  //   obj.onContextMenuClick = function(){
+  //     console.log("PRINTING EL ", el)
+  //     obj.dispatch("oncontextmenuclick", el);
+  //   }
+
     /**
      * Set a row data by rowNumber
      */
@@ -10030,8 +10035,9 @@ if (!formula && typeof require === "function") {
     }
   };
 
-  jexcel.contextMenuControls = function (el, obj) {
-    jexcel.current.dispatch("oncontextmenuclick", el, obj);
+  jexcel.contextMenuControls = function (e) {
+  jexcel.current.dispatch("oncontextmenuclick", jexcel.current.el);
+
     e = e || window.event;
     if ("buttons" in e) {
       var mouseButton = e.buttons;

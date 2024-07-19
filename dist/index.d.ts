@@ -1360,8 +1360,8 @@ declare namespace jspreadsheet {
     ) => void;
 
     oncontextmenuclick?: (
-      element: JspreadsheetInstanceElement,
-      jssInstance: JspreadsheetInstance
+      element?: any,
+      // jssInstance?: JspreadsheetInstance
     ) => void;
 
     onrowselection?: (
