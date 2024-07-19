@@ -1359,7 +1359,10 @@ declare namespace jspreadsheet {
       columnId: number
     ) => void;
 
-    oncontextmenuclick?: (jssInstance: JspreadsheetInstance) => void;
+    oncontextmenuclick?: (
+      element: JspreadsheetInstanceElement,
+      jssInstance: JspreadsheetInstance
+    ) => void;
 
     onrowselection?: (
       element: JspreadsheetInstanceElement,

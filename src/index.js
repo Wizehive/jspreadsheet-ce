@@ -740,7 +740,7 @@ if (!formula && typeof require === "function") {
         //     );
         //   }
         // } else {
-        let nestedInformationObject = obj.options.columns.map(col => col);
+        let nestedInformationObject = obj.options.columns.map((col) => col);
         obj.thead.appendChild(obj.createNestedHeader(nestedInformationObject));
         // }
       }
@@ -1953,8 +1953,8 @@ if (!formula && typeof require === "function") {
           // Tooltip
           if (toolbar[i].tooltip) {
             var tooltipDiv = document.createElement("div");
-            var tooltipId =  ("myTooltip" + toolbar[i].k);
-            tooltipDiv.id = tooltipId
+            var tooltipId = "myTooltip" + toolbar[i].k;
+            tooltipDiv.id = tooltipId;
             tooltipDiv.classList.add("Select-with-tooltip");
             var tooltipSpan = document.createElement("span");
             tooltipSpan.classList.add("tooltip-box");
@@ -1966,8 +1966,7 @@ if (!formula && typeof require === "function") {
             var SelectDiv = document.getElementById("selectWith");
             // Generate a dynamic ID (for example, adding a timestamp)
             var dynamicId = "selectWith" + toolbar[i].k;
-            SelectDiv.id = dynamicId
-
+            SelectDiv.id = dynamicId;
           }
         } else if (toolbar[i].type == "divisor") {
           var toolbarItem = document.createElement("div");
@@ -2015,12 +2014,12 @@ if (!formula && typeof require === "function") {
     };
 
     obj.enableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach(index =>
+      toolbarItemIndexArray.forEach((index) =>
         obj.toolbar.children[index].removeAttribute("data-disabled")
       );
     };
     obj.disableToolbarItem = function (toolbarItemIndexArray) {
-      toolbarItemIndexArray.forEach(index =>
+      toolbarItemIndexArray.forEach((index) =>
         obj.toolbar.children[index].setAttribute("data-disabled", "disabled")
       );
     };
@@ -4976,7 +4975,11 @@ if (!formula && typeof require === "function") {
             obj.options.data[row][col] = data[col] ? data[col] : "";
           }
           // Create row
-          obj.options.cellDataTypes.splice(rowIndex, 0, obj.options.cellDataTypes[rowNumber])
+          obj.options.cellDataTypes.splice(
+            rowIndex,
+            0,
+            obj.options.cellDataTypes[rowNumber]
+          );
           var tr = obj.createRow(row, obj.options.data[row]);
           // Append node
           if (currentRows[0]) {
@@ -6053,7 +6056,7 @@ if (!formula && typeof require === "function") {
      */
     obj.setReadOnly = function (cell, state) {
       if (Array.isArray(cell) && cell.length > 2) {
-        const betweenCells = selectedArray => {
+        const betweenCells = (selectedArray) => {
           const finalArray = [];
           const [first, second, third, fourth] = selectedArray;
           let minCol = first,
@@ -6080,7 +6083,7 @@ if (!formula && typeof require === "function") {
           return finalArray;
         };
         const arrayOfCoords = betweenCells(cell);
-        arrayOfCoords.forEach(coord => obj.setReadOnly(coord, state));
+        arrayOfCoords.forEach((coord) => obj.setReadOnly(coord, state));
       }
       if ((cell = obj.getCell(cell))) {
         const cellCoords = [
@@ -6091,7 +6094,8 @@ if (!formula && typeof require === "function") {
           cell.classList.add("readonly");
           if (
             obj.readOnlyCells.findIndex(
-              coord => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+              (coord) =>
+                coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
             ) == -1
           ) {
             obj.readOnlyCells.push(cellCoords);
@@ -6099,7 +6103,7 @@ if (!formula && typeof require === "function") {
         } else {
           cell.classList.remove("readonly");
           const indexOfCoords = obj.readOnlyCells.findIndex(
-            coord => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
+            (coord) => coord[0] === cellCoords[0] && coord[1] === cellCoords[1]
           );
           if (indexOfCoords !== -1) {
             obj.readOnlyCells.splice(indexOfCoords, 1);
@@ -10026,8 +10030,8 @@ if (!formula && typeof require === "function") {
     }
   };
 
-  jexcel.contextMenuControls = function (e) {
-    jexcel.current.dispatch("oncontextmenuclick",e);
+  jexcel.contextMenuControls = function (el, obj) {
+    jexcel.current.dispatch("oncontextmenuclick", el, obj);
     e = e || window.event;
     if ("buttons" in e) {
       var mouseButton = e.buttons;
@@ -10058,7 +10062,6 @@ if (!formula && typeof require === "function") {
               jexcel.current.updateSelectionFromCoords(x, y, x, y);
             }
 
-            
             // Table found
             var items = jexcel.current.options.contextMenu(
               jexcel.current,
