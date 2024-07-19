@@ -255,6 +255,7 @@ if (!formula && typeof require === "function") {
       oncolumnselection: null,
       onrowselection: null,
       onbodyselection: null,
+      oncontextmenuclick: null,
       oncopy: null,
       onpaste: null,
       onbeforepaste: null,
@@ -10026,6 +10027,7 @@ if (!formula && typeof require === "function") {
   };
 
   jexcel.contextMenuControls = function (e) {
+    jexcel.current.dispatch("oncontextmenuclick",e);
     e = e || window.event;
     if ("buttons" in e) {
       var mouseButton = e.buttons;
