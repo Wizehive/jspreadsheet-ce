@@ -6490,6 +6490,7 @@ if (!formula && typeof require === "function") {
               y,
               obj
             );
+            if (typeof(res)!='number' && typeof(res)=='object' && res.toString().includes("Error")) return "#ERROR";
           } catch (e) {
             var res = "#ERROR";
             console.log(e);
