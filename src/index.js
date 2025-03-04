@@ -10,7 +10,7 @@
 if (!formula && typeof require === "function") {
   var formula = require("@jspreadsheet/formula");
 }
-
+console.log("inside index.js");
 (function (global, factory) {
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
